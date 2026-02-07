@@ -1,0 +1,97 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { ethers } from "ethers";
+import { NUDOS_CONTRACT } from "@/src/config/contracts";
+import { getSigner } from "@/src/utils/walletProvider";
+import { Recycle, Ticket, PiggyBank, Wallet } from "lucide-react";
+
+export default function PerfilPage() {
+  const [balance, setBalance] = useState("0");
+  const [nudos, setNudos] = useState("0");
+  const [recycle, setRecycle] = useState("0");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const signer = await getSigner();
+        const contract = new ethers.Contract(
+          NUDOS_CONTRACT.address,
+          NUDOS_CONTRACT.abi,
+          signer
+        );
+        const address = await signer.getAddress();
+        const b = await contract.balanceOf(address);
+        setBalance(ethers.formatUnits(b, 18));
+        setNudos("15");
+        setRecycle("247");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    load();
+  }, []);
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Lazos Wallet</h1>
+
+      <div className="flex gap-2 mb-4">
+        <div className="bg-amber-500 text-white px-3 py-1 rounded-lg text-xs">
+          Estudiante – Pregrado
+        </div>
+        <div className="bg-amber-500 text-white px-3 py-1 rounded-lg text-xs">
+          Bono – Almuerzo Regular
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center">
+        <Image
+          src="/icons/profile.png"
+          alt="perfil"
+          width={70}
+          height={70}
+          className="rounded-full border-2 border-amber-500 mb-2"
+        />
+
+        <div className="text-lg font-bold">${balance} TOKENS</div>
+
+        <div className="flex gap-6 text-sm mt-1">
+          <span>{nudos} $NUDOS</span>
+          <span>{recycle} RECICLA</span>
+        </div>
+
+        <div className="bg-neutral-200 text-black mt-4 px-4 py-2 rounded-lg text-xs">
+          CKZPzDhoI7RqewYYKshmlyxtZ6S2
+        </div>
+
+        <div className="mt-1 text-xs">https://lazos.go/user</div>
+      </div>
+
+      <section className="grid grid-cols-2 gap-3 mt-6">
+        <div className="bg-gray-200 rounded-2xl p-4 text-center text-black">
+          <Ticket className="w-6 h-6 mx-auto mb-1" />
+          <p className="text-sm">0</p>
+          <p className="text-xs font-bold">TICKETS</p>
+        </div>
+        <div className="bg-gray-200 rounded-2xl p-4 text-center text-black">
+          <Recycle className="w-6 h-6 mx-auto mb-1" />
+          <p className="text-sm">56.4k</p>
+          <p className="text-xs font-bold">RECICLAJE</p>
+        </div>
+        <div className="bg-gray-200 rounded-2xl p-4 text-center text-black">
+          <PiggyBank className="w-6 h-6 mx-auto mb-1" />
+          <p className="text-sm">56.4k</p>
+          <p className="text-xs font-bold">AHORRO</p>
+        </div>
+        <div className="bg-gray-200 rounded-2xl p-4 text-center text-black">
+          <Wallet className="w-6 h-6 mx-auto mb-1" />
+          <p className="text-sm">{nudos}</p>
+          <p className="text-xs font-bold">$NUDOS</p>
+        </div>
+      </section>
+    </div>
+  );
+}

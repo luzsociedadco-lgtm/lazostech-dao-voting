@@ -1,0 +1,48 @@
+"use client"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Home, Ticket, Recycle, ShoppingBag, Users } from "lucide-react"
+
+const navItems = [
+  { href: "/perfil", label: "Perfil", icon: Home },
+  { href: "/tickets", label: "Tickets", icon: Ticket },
+  { href: "/reciclaje", label: "Reciclaje", icon: Recycle },
+  { href: "/marketplace", label: "Market", icon: ShoppingBag },
+  { href: "/dao", label: "DAO", icon: Users },
+]
+
+export default function FooterNav() {
+  const pathname = usePathname()
+
+  return (
+    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-neutral-200 shadow-lg z-50">
+      <div className="flex justify-between px-4 py-2">
+        {navItems.map((item) => {
+          const Icon = item.icon
+          const active = pathname === item.href
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center text-xs"
+            >
+              <Icon
+                size={22}
+                className={active ? "text-amber-500" : "text-neutral-600"}
+              />
+              <span
+                className={
+                  active ? "text-amber-600 font-semibold" : "text-neutral-600"
+                }
+              >
+                {item.label}
+              </span>
+            </Link>
+          )
+        })}
+      </div>
+    </nav>
+  )
+}

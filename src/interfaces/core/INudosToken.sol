@@ -1,0 +1,9 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+interface INudosToken {
+    function mint(address to, uint256 amount) external;
+    function balanceOf(address account) external pure returns (uint256);
+    function transfer(address to, uint256 amount) external returns (bool);
+}
+

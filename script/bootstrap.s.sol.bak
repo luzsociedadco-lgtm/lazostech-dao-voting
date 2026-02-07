@@ -1,0 +1,44 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import "forge-std/Script.sol" as Script1;
+import "../src/facets/UniversityFacet.sol" as UniversityFacet2;
+import "../src/facets/CampusFacet.sol" as CampusFacet2;
+import "../src/facets/TicketsFacet.sol" as TicketsFacet2;
+import "../src/libraries/AppStorage.sol" as AppStorage9;
+
+interface IUniversityFacet {
+    function addUniversityStaff(address staff) external;
+}
+
+interface ICampusFacet {
+    function createCampus(uint256 campusId, string calldata name, string calldata metadataURI) external;
+}
+
+interface ITicketsFacet {
+    function setTokenContract(address token) external;
+    function setTicketPriceInTokens(uint256 price) external;
+}
+
+contract Bootstrap is Script {
+//     address constant DIAMOND_ADDRESS = 0xE15a1c28C4185F9d98C1d2E17c2e8497BfeFa23C;
+
+    function run() external {
+        vm.startBroadcast();
+
+        // Reemplaza con la cuenta que quieres hacer staff
+//         address initialStaff = msg.sender;
+
+        // 1) Añadir university staff (asumiendo UniversityFacet ya agregado al Diamond)
+        IUniversityFacet(DIAMOND_ADDRESS).addUniversityStaff(initialStaff);
+
+        // 2) Crear un campus inicial (campusId = 1)
+        ICampusFacet(DIAMOND_ADDRESS).createCampus(1, "Main Campus", "ipfs://metadata_maincampus");
+
+        // 3) Opcional: set token y precio
+        // ITicketsFacet(DIAMOND_ADDRESS).setTokenContract(0x...);
+        // ITicketsFacet(DIAMOND_ADDRESS).setTicketPriceInTokens(100 * (10**18));
+
+        vm.stopBroadcast();
+    }
+}

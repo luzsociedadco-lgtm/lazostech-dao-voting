@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import "forge-std/Script.sol" as Script7;
+import "../src/facets/RewardFacet.sol" as RewardFacet3;
+
+contract InitRewards is Script {
+    // Cambia por tu diamond y token reales
+//     address constant DIAMOND = 0xF7A32c99401EdEFf07B86B4E0525da6a90664d3e;
+//     address constant TOKEN = 0xE15a1c28C4185F9d98C1d2E17c2e8497BfeFa23C;
+
+    function run() external {
+        vm.startBroadcast();
+
+        // Setea el contract token que RewardFacet usará para mintear
+        RewardFacet(DIAMOND).setToken(TOKEN);
+
+        // Seteamos las tasas por material (en unidades de token, usando 18 decimales)
+        // Usamos bytes32(abi.encodePacked("AL")) para crear la key "AL"
+        RewardFacet(DIAMOND).setRecycleRate(bytes32(abi.encodePacked("AL")), 2 ether); // aluminio = 2 tokens
+        RewardFacet(DIAMOND).setRecycleRate(bytes32(abi.encodePacked("PL")), 1 ether); // plastico = 1 token
+        RewardFacet(DIAMOND).setRecycleRate(bytes32(abi.encodePacked("CB")), 1 ether); // cartón = 1 token
+        RewardFacet(DIAMOND).setRecycleRate(bytes32(abi.encodePacked("GL")), 3 ether); // vidrio = 3 tokens
+
+        vm.stopBroadcast();
+    }
+}

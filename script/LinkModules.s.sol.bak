@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "forge-std/Script.sol" as Script8;
+import "../src/core/NudosCore.sol" as NudosCore1;
+import "../src/modules/Reward/PriceModule.sol" as PriceModule1;
+import "../src/modules/Reward/RewardModule.sol" as RewardModule1;
+
+contract LinkModules is Script {
+    function run() external {
+        vm.startBroadcast();
+
+//         address coreAddress = 0xF7A32c99401EdEFf07B86B4E0525da6a90664d3e;
+//         address priceAddress = 0x25e60a4CA4edfbb850D3a5932d87b862199Ceb6A;
+//         address rewardAddress = 0x25e60a4CA4edfbb850D3a5932d87b862199Ceb6A;
+
+        NudosCore core = NudosCore(coreAddress);
+
+        core.setPriceModule(priceAddress);
+        core.setRewardModule(rewardAddress);
+
+        vm.stopBroadcast();
+    }
+}

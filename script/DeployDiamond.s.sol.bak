@@ -1,0 +1,82 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "forge-std/Script.sol";
+
+import {Diamond} from "../src/diamond/Diamond.sol";
+import {IDiamondCut} from "../src/interfaces/diamond/IDiamondCut.sol";
+
+import {DiamondCutFacet} from "../src/facets/DiamondCutFacet.sol";
+import {DiamondLoupeFacet} from "../src/facets/DiamondLoupeFacet.sol";
+import {OwnershipFacet} from "../src/facets/OwnershipFacet.sol";
+
+import {RecycleFacet} from "../src/facets/RecycleFacet.sol";
+import {RewardFacet} from "../src/facets/RewardFacet.sol";
+import {ParticipationFacet} from "../src/facets/ParticipationFacet.sol";
+
+import {Selectors} from "./Selectors.sol";
+
+contract DeployDiamond is Script {
+    function run() external {
+        vm.startBroadcast();
+
+        address owner = msg.sender;
+
+        // 1️⃣ Deploy Cut Facet
+        DiamondCutFacet cutFacet = new DiamondCutFacet();
+
+        // 2️⃣ Deploy Diamond (constructor SOLO recibe cut facet + owner)
+        Diamond diamond = new Diamond();
+
+        // 3️⃣ Deploy facetas
+        DiamondLoupeFacet loupe = new DiamondLoupeFacet();
+        OwnershipFacet ownership = new OwnershipFacet();
+
+        RecycleFacet recycle = new RecycleFacet();
+        RewardFacet reward = new RewardFacet();
+        ParticipationFacet participation = new ParticipationFacet();
+
+// 4️⃣ Armamos el diamondCut
+IDiamondCut.FacetCut[] memory cut =
+    new IDiamondCut.FacetCut[](5);
+
+cut[0] = IDiamondCut.FacetCut({
+    facetAddress: address(loupe),
+    action: IDiamondCut.FacetCutAction.Add,
+    functionSelectors: Selectors.getDiamondLoupeFacetSelectors()
+});
+
+cut[1] = IDiamondCut.FacetCut({
+    facetAddress: address(ownership),
+    action: IDiamondCut.FacetCutAction.Add,
+    functionSelectors: Selectors.getOwnershipFacetSelectors()
+});
+
+cut[2] = IDiamondCut.FacetCut({
+    facetAddress: address(recycle),
+    action: IDiamondCut.FacetCutAction.Add,
+    functionSelectors: Selectors.getRecycleFacetSelectors()
+});
+
+cut[3] = IDiamondCut.FacetCut({
+    facetAddress: address(reward),
+    action: IDiamondCut.FacetCutAction.Add,
+    functionSelectors: Selectors.getRewardFacetSelectors()
+});
+
+cut[4] = IDiamondCut.FacetCut({
+    facetAddress: address(participation),
+    action: IDiamondCut.FacetCutAction.Add,
+    functionSelectors: Selectors.getParticipationFacetSelectors()
+});
+
+        // 5️⃣ Ejecutamos el cut
+        IDiamondCut(address(diamond)).diamondCut(
+            cut,
+            address(0),
+            ""
+        );
+
+        vm.stopBroadcast();
+    }
+}

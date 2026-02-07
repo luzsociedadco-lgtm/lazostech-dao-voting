@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import "forge-std/Script.sol" as Script5;
+import "../src/modules/Reward/PriceModule.sol" as PriceModule;
+import "../src/interfaces/modules/IPriceModule.sol" as IPriceModule1;
+
+contract DeployPrice is Script {
+    function run() external {
+        vm.startBroadcast();
+
+//         address owner = 0x5b73C5498c1E3b4dbA84de0F1833c4a029d90519;
+
+        PriceModule priceModule = new PriceModule(owner);
+
+        priceModule.setReferencePrices(Material.PET, [uint256(100), 120, 110, 130, 105]);
+
+        priceModule.setReferencePrices(Material.PLASTIC, [uint256(70), 65, 75, 80, 72]);
+
+        priceModule.setReferencePrices(Material.ALUMINUM, [uint256(200), 210, 195, 205, 198]);
+
+        priceModule.setReferencePrices(Material.CARDBOARD, [uint256(40), 42, 38, 45, 41]);
+
+        priceModule.setReferencePrices(Material.GLASS, [uint256(55), 57, 53, 60, 56]);
+
+        vm.stopBroadcast();
+    }
+}

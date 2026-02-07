@@ -1,0 +1,25 @@
+import './globals.css'
+import { WagmiWrapper } from './providers/WagmiWrapper'
+import FooterNav from "./components/FooterNav"   // <-- ESTE ES EL BUENO
+
+export const metadata = {
+  title: "Lazos Wallet",
+  description: "DApp LazosTech"
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="es">
+      <body className="bg-gray-50 text-neutral-900">
+        <WagmiWrapper>
+          <main className="pb-20"> 
+            {children}
+          </main>
+
+          {/* Footer en TODAS las páginas */}
+          <FooterNav />
+        </WagmiWrapper>
+      </body>
+    </html>
+  )
+}

@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import "forge-std/Script.sol" as Script;
+
+// DiamondCut interface
+import "../src/interfaces/diamond/IDiamondCut.sol" as IDiamondCut3;
+
+// Facets
+import "../src/facets/UniversityFacet.sol" as UniversityFacet1;
+import "../src/facets/CampusFacet.sol" as CampusFacet1;
+import "../src/facets/TicketsFacet.sol" as TicketsFacet1;
+import "../src/facets/RecycleFacet.sol" as RecycleFacet1;
+import "../src/facets/RewardFacet.sol" as RewardFacet1;
+import "../src/facets/MarketplaceFacet.sol" as MarketplaceFacet1;
+import "../src/facets/DaoFacet.sol" as DaoFacet1;
+
+// Selectors library
+import "../src/libraries/Selectors.sol" as Selectors;
+
+contract AddFacetsScript is Script {
+    // Cambia esta dirección por tu Diamond Core (tu NudosCore)
+//     address constant DIAMOND_ADDRESS = address(0xF7A32c99401EdEFf07B86B4E0525da6a90664d3e);
+
+    function run() external {
+        vm.startBroadcast();
+
+        // Declaramos el array dinámico de cortes (facets a agregar)
+        IDiamondCut.FacetCut[] memory cut = new IDiamondCut.FacetCut[](6);
+
+        cut[0] = IDiamondCut.FacetCut({
+            facetAddress: address(new UniversityFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getUniversityFacetSelectors()
+        });
+
+        cut[1] = IDiamondCut.FacetCut({
+            facetAddress: address(new CampusFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getCampusFacetSelectors()
+        });
+
+        cut[2] = IDiamondCut.FacetCut({
+            facetAddress: address(new TicketsFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getTicketsFacetSelectors()
+        });
+
+        cut[3] = IDiamondCut.FacetCut({
+            facetAddress: address(new RecycleFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getRecycleFacetSelectors()
+        });
+
+        cut[4] = IDiamondCut.FacetCut({
+            facetAddress: address(new RewardFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getRewardFacetSelectors()
+        });
+
+        cut[5] = IDiamondCut.FacetCut({
+            facetAddress: address(new MarketplaceFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getMarketplaceFacetSelectors()
+        });
+
+        cut[6] = IDiamondCut.FacetCut({
+            facetAddress: address(new DaoFacet()),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: Selectors.getDaoFacetSelectors()
+        });
+
+        // Ejecutamos el diamondCut sobre el Diamond ya desplegado
+        IDiamondCut(DIAMOND_ADDRESS)
+            .diamondCut(
+                cut,
+                address(0), // no init
+                "" // no calldata
+            );
+
+        vm.stopBroadcast();
+    }
+}

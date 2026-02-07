@@ -1,58 +1,55 @@
-# 💎 LazosTech DAO: Institutional Governance Protocol
-**Modular Governance Infrastructure built for ETHGlobal HackMoney 2026**
+# 💎 LazosTech DAO: Institutional Governance Engine
+**Specialized On-Chain Decision Engine for High-Stake Boards**
+
+Built for **ETHGlobal HackMoney 2026** | Powered by **Base Sepolia**
 
 ---
 
-## 🏗️ The Vision: A Scalable "Roadmap" for Governance
-LazosTech is not just a voting tool; it is a **modular infrastructure** designed as a "blockchain highway." For this hackathon, we built the **LazosTech DAO**, a specialized governance engine running on top of our **EIP-2535 Diamond Standard** core.
+## 🏛️ Executive Summary
+LazosTech DAO is a high-integrity governance protocol designed for institutional transparency. While built upon a **Modular Diamond (EIP-2535)** "highway," the focus of this implementation is the **DemoDAO**: a specialized governance engine that enables verifiable, immutable decision-making for executive boards.
 
-This architecture allows institutional entities (Universities, Tech Hubs, Corporate Boards) to deploy upgradeable governance logic without migrations, ensuring that as the organization grows, the "highway" stays intact while new "vehicles" (facets) can be added.
+Our demo showcases a real-world high-stakes scenario: **The Zonamerica Board of Directors** (Cali, Colombia) deciding on the strategic approval and construction of the **"Ethereum Building"** within their Free Trade Zone.
 
-## 🏛️ The Demo: Zonamerica Board Meeting
-To demonstrate the power of our DAO, we simulated a high-stakes institutional scenario:
-**The Zonamerica Board of Directors deciding on the construction of the "Ethereum Building" within their Free Trade Zone in Cali, Colombia.**
+## 🚀 The Demo: Zonamerica Board Governance
+We have successfully executed a full governance lifecycle on-chain through **15 verifiable transactions**. This process simulates the transition from board formation to final project approval.
 
-### The On-Chain Governance Cycle:
-Using our automated engine, we executed a complete lifecycle of **15 verifiable transactions** on **Base Sepolia**, covering:
-1. **Board Formation:** Initializing the DAO and authorized board members.
-2. **Session Opening:** Launching the "Zonamerica Hub Expansion" session.
-3. **Strategic Resolutions:** Proposing 4 critical binary decisions:
-   - *Is construction viable in the current zone?*
-   - *Is the required land available?*
-   - *Does the project align with Zonamerica’s 2030 goals?*
-   - *Final approval for the "Ethereum Building" project.*
-4. **Automated Consensus:** Executing the voting process and finalizing results on-chain.
-
-
+### Governance Workflow:
+1. **Board Formation:** Initialization of the DAO with institutional board members.
+2. **Session Launch:** Opening the official session: *"Board Meeting: Zonamerica Hub Expansion"*.
+3. **Strategic Resolutions:** The board voted on 4 critical pillars:
+   - **RES-01:** Technical viability within the Free Trade Zone.
+   - **RES-02:** Land availability and environmental compliance.
+   - **RES-03:** Strategic alignment with Zonamerica’s 2030 Vision.
+   - **RES-04:** Final Approval for the "Ethereum Building" construction.
+4. **On-Chain Finalization:** Settlement of votes and formal registration of the board's resolution.
 
 ---
 
-## 🛠️ Technical Stack & Implementation
+## 🛠️ Technical Deep Dive
 
-### 💎 The "Highway" (EIP-2535 Diamond)
-We chose the **Diamond Standard** to overcome the 24KB contract limit and provide a future-proof structure. 
+### 🧩 Specialized DAO Architecture
+Unlike monolithic DAOs, LazosTech DAO uses a **Decoupled Storage Pattern**.
+- **`DaoEthGlobalFacet.sol`**: Contains the core governance logic for the demo.
+- **`DaoStorage.sol`**: A dedicated storage namespace. This ensures the DAO’s data is isolated and secure, preventing collisions with other system components.
+- **Modular Support:** The Diamond Standard provides the "highway" (upgradeability and scalability), but the DAO logic remains the sovereign driver of the protocol.
+
+### ⛓️ Proof of Execution (Base Sepolia)
 - **Diamond Proxy:** `0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8`
-- **Modular Facets:** Logic is decoupled from storage, allowing us to swap the `DaoEthGlobalFacet` if governance rules change.
-- **AppStorage Pattern:** We implemented a centralized storage pointer to maintain state consistency across the entire Diamond.
-
-### ⛓️ The Execution (Base Sepolia)
-- **Framework:** Foundry.
-- **On-Chain Proof:** All 15 transactions were executed via `script/ethglobal/DemoRun.s.sol`.
-- **Transparency:** Every board decision is anchored on Base, providing a public, immutable audit trail for the university and board members.
+- **Execution Engine:** 15 transactions triggered via `script/ethglobal/DemoRun.s.sol`.
+- **Infrastructure:** Built with **Foundry** for rigorous testing and deployment.
+- **Frontend:** A dedicated, lightweight dashboard (`ethglobal-frontend`) designed for board members to visualize on-chain resolutions.
 
 ---
 
-## 📂 Repository Structure
-- **/src/facets/dao-ethglobal**: Core logic for the DAO MVP.
-- **/src/libraries/AppStorage.sol**: The "Source of Truth" for the Diamond state.
-- **/script/ethglobal**: Deployment and Demo scripts that triggered the 15 txs.
-- **/broadcast**: Real-world transaction receipts (Base Sepolia).
-- **/ethglobal-frontend**: A streamlined, single-purpose interface to visualize the board's resolutions.
-
-## 🏁 How to Verify the Demo
-1. Check the **`broadcast/`** folder to see the JSON receipts of the transactions.
-2. Visit **BaseScan** using the Diamond Proxy address to see the governance events in real-time.
-3. Review **`src/facets/dao-ethglobal/DaoEthGlobalFacet.sol`** to understand how we handled the Zonamerica board logic.
+## 📂 Repository Roadmap
+- **/src/facets/dao-ethglobal**: Core governance logic for the Zonamerica Pilot.
+- **/src/facets/dao-ethglobal/storage**: Isolated DAO state (`DaoStorage.sol`).
+- **/script/ethglobal**: Automated deployment and the 15-transaction demo sequence.
+- **/broadcast**: Live execution logs on Base Sepolia.
+- **/ethglobal-frontend**: Clean, institutional interface for result visualization.
 
 ---
-*LazosTech is the foundation for verifiable institutional trust. Built with passion for ETHGlobal 2026.*
+## 🏁 Verification
+To audit the 15-transaction sequence, please refer to the **`broadcast/`** folder or track the Diamond Proxy on **BaseScan**. Each resolution status is anchored on-chain, providing a public audit trail for all university and corporate stakeholders.
+
+*LazosTech: Engineering institutional trust through modular blockchain architecture.*

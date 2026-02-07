@@ -1,66 +1,19 @@
-## Foundry
+# 💎 LazosTech DAO - Institutional Governance
+**ETHGlobal 2026 | Built on Base Sepolia**
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+LazosTech DAO is a modular governance engine built using the **EIP-2535 Diamond Standard**. It is designed for university assemblies and organizations that need verifiable, on-chain decision-making with upgradeable logic.
 
-Foundry consists of:
+## 🚀 Key Features
+- **Modular Architecture:** Uses Diamond Facets for scalable governance.
+- **On-Chain Transparency:** 15+ lifecycle transactions executed and verified on Base Sepolia.
+- **Institutional Board Logic:** Specialized storage patterns for board members and university resolutions.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## 📂 Project Structure
+- **/ethglobal-frontend:** The dedicated demo interface for the hackathon.
+- **/src/facets/dao-ethglobal:** Core smart contract logic (Diamond Facets).
+- **/script/ethglobal:** Automated governance deployment and demo scripts.
+- **/broadcast:** Verification logs of the live on-chain execution.
 
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## 🔗 Live Demo
+- **Diamond Proxy:** `0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8`
+- **Network:** Base Sepolia

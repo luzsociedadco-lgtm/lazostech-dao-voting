@@ -102,9 +102,9 @@
                 <span class="text-[9px] text-[#f2a93b] tracking-[0.3em] font-bold uppercase">Blockchain Solutions</span>
             </div>
         </div>
-        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest">
-            Network: Base Sepolia
-        </div>
+<div id="walletIndicator" class="text-[10px] font-mono text-gray-500 border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest">
+    Network: Base Sepolia
+</div>
     </nav>
 
     <main class="flex-grow flex items-center justify-center p-6 relative z-10">
@@ -231,7 +231,7 @@ async function switchToBaseSepolia() {
                 setTimeout(() => document.getElementById(to).classList.add('step-active'), 50);
             }, 400);
         }
-        
+
 async function connect(role) {
 
   // 1️⃣ Verificar MetaMask
@@ -241,34 +241,32 @@ async function connect(role) {
   }
 
   try {
-    // 2️⃣ Conectar cuenta
+    // 2️⃣ Conectar wallet (abre popup MetaMask)
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
 
-    const userAddress = accounts[0];
+    const address = accounts[0];
 
-    // 3️⃣ 🔐 Pedir firma (popup MetaMask)
+    // 3️⃣ Pedir firma (abre segundo popup MetaMask)
     const message = `Sign this message to enter LazosTech DAO as ${role}`;
 
-    const signature = await window.ethereum.request({
+    await window.ethereum.request({
       method: "personal_sign",
-      params: [message, userAddress],
+      params: [message, address],
     });
 
-    // 4️⃣ Guardar sesión demo
-    localStorage.setItem("wallet", userAddress);
-    localStorage.setItem("role", role);
-    localStorage.setItem("signature", signature);
-
+    // 💾 Guardar sesión (solo demo)
     walletRole = role;
+    localStorage.setItem("wallet", address);
+    localStorage.setItem("role", role);
 
-    // Mostrar wallet conectada en navbar
-    const short = userAddress.slice(0,6) + "..." + userAddress.slice(-4);
-    document.querySelector("nav div.text-[10px]").innerText =
+    // 4️⃣ Mostrar wallet conectada en navbar
+    const short = address.slice(0,6) + "..." + address.slice(-4);
+    document.getElementById("walletIndicator").innerText =
         "Connected: " + short + " • Base Sepolia";
 
-    // 5️⃣ Continuar flujo original de la app
+    // 5️⃣ CONTINUAR FLUJO ORIGINAL (esto faltaba)
     if (role === 'admin') {
         transition('step1', 'step2');
     } else {
@@ -285,9 +283,10 @@ async function connect(role) {
     }
 
   } catch (error) {
-    console.error("Connection/signature failed", error);
+    console.error("User rejected connection", error);
   }
-}
+}        
+
         function initAssembly() {
             const title = document.getElementById('sessionTitle').value;
             if(!title) return;

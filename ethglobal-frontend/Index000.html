@@ -3,162 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LazosTech | Governance Portal</title>
+    <title>LazosTech | Junta Directiva Zonamerica</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --brand-green: #10b981;
-            --brand-dark: #000000;
-            --brand-glass: rgba(255, 255, 255, 0.03);
-        }
+        :root { --lazos-gold: #f2a93b; --lazos-bg: #000000; }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--brand-dark); 
+            background-color: var(--lazos-bg); 
             color: #ffffff;
-            background-image: radial-gradient(circle at 50% -20%, #062d1f 0%, #000000 70%);
             min-height: 100vh;
         }
         .lazos-card {
-            background: var(--brand-glass);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
+            border-radius: 16px;
         }
-        .btn-primary {
-            background: var(--brand-green);
-            color: black;
+        .btn-gold {
+            background-color: var(--lazos-gold);
+            color: #000;
             font-weight: 700;
             transition: all 0.3s ease;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
-        }
-        .step-hidden { display: none; opacity: 0; transform: scale(0.95); }
-        .step-active { display: block; opacity: 1; transform: scale(1); transition: all 0.5s ease; }
-        input { 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            color: white; 
-            padding: 1rem; 
-            border-radius: 12px; 
+        .btn-gold:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .step-hidden { display: none; opacity: 0; }
+        .step-active { display: block; opacity: 1; transition: all 0.5s ease; }
+        
+        /* Inputs más cómodos */
+        .custom-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 1.25rem; /* Más altura */
+            border-radius: 12px;
             width: 100%;
             outline: none;
+            font-size: 1rem;
         }
-        input:focus { border-color: var(--brand-green); }
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .custom-input:focus { border-color: var(--lazos-gold); background: rgba(255,255,255,0.08); }
     </style>
 </head>
 <body class="flex flex-col">
 
-    <nav class="p-8 w-full max-w-7xl mx-auto flex justify-between items-center">
-        <div class="logo-container">
-            <div class="w-10 h-10 bg-[#10b981] rounded-lg flex items-center justify-center">
-                <span class="text-black font-black text-xl italic">L</span>
-            </div>
-            <div>
-                <h1 class="text-lg font-extrabold tracking-tighter leading-none">LAZOSTECH</h1>
-                <p class="text-[9px] text-[#10b981] tracking-[0.3em] font-bold">BLOCKCHAIN SOLUTIONS</p>
-            </div>
+    <nav class="p-6 w-full max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <img src="https://static.wixstatic.com/media/9d63c4_6c021161372b43a99201994640476442~mv2.png" alt="LazosTech Logo" class="h-10">
+            <div class="h-6 w-[1px] bg-white/20 mx-2"></div>
+            <h1 class="text-xl font-bold tracking-tight">BOARD <span class="text-[#f2a93b]">PORTAL</span></h1>
         </div>
-        <div id="walletDisplay" class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-            Network: Base Sepolia
+        <div id="walletStatus" class="text-[10px] font-mono text-gray-500 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+            NETWORK: BASE SEPOLIA
         </div>
     </nav>
 
-    <main class="flex-grow flex items-center justify-center p-6">
+    <main class="flex-grow flex items-center justify-center px-6 py-10">
         
-        <div id="step1" class="max-w-md w-full text-center space-y-8 step-active">
-            <h2 class="text-4xl font-extrabold tracking-tight">Governance <span class="text-[#10b981]">Portal</span></h2>
-            <p class="text-gray-400 font-light">Acceda a la toma de decisiones estratégicas de LazosTech y Zonamerica.</p>
-            <div class="space-y-4">
-                <button onclick="connect('admin')" class="w-full btn-primary py-4 rounded-full text-sm uppercase tracking-widest">
-                    Acceso Moderador
+        <div id="step1" class="max-w-2xl w-full text-center space-y-8 step-active">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW8Xo9n3-1E7qT8kO7D6E7W1kE7Y_eLzQ8Qg&s" alt="Zonamerica Logo" class="h-16 mx-auto mb-6 grayscale brightness-200">
+            <h2 class="text-4xl font-extrabold tracking-tight italic">Sistema de Deliberación Interna</h2>
+            <p class="text-gray-400 text-lg font-light">Acceso exclusivo para miembros de la Junta Directiva - Proyecto Expansión Zonamerica Cali.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center pt-6">
+                <button onclick="connect('admin')" class="btn-gold px-8 py-4 rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-orange-500/10">
+                    Conectar Wallet de Moderador
                 </button>
-                <button onclick="connect('voter')" class="w-full bg-white/5 border border-white/10 py-4 rounded-full text-sm uppercase tracking-widest font-bold hover:bg-white/10 transition-all">
-                    Acceso Miembro de Junta
+                <button onclick="connect('voter')" class="bg-white/5 border border-white/20 px-8 py-4 rounded-xl text-xs uppercase tracking-widest font-bold hover:bg-white/10 transition-all">
+                    Conectar Wallet de Participante
                 </button>
             </div>
         </div>
 
-        <div id="step2" class="max-w-xl w-full lazos-card p-10 step-hidden">
-            <div class="mb-8">
-                <span class="text-[#10b981] text-[10px] font-bold tracking-[.4em] uppercase">Private Session</span>
-                <h2 class="text-2xl font-bold mt-2 italic">Nueva Asamblea General</h2>
-            </div>
-            <div class="space-y-4">
-                <input id="sessionTitle" placeholder="Nombre de la sesión (ej. Proyecto Edificio Ethereum)">
-                <button onclick="initAssembly()" class="w-full btn-primary py-4 rounded-xl uppercase text-xs tracking-widest">
-                    Iniciar Sesión
+        <div id="step2" class="max-w-xl w-full lazos-card p-10 step-hidden shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-gold italic">Apertura de Sesión</h2>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Título de la Sesión</label>
+                    <input id="sessionTitle" class="custom-input" placeholder="Ej: Fase de Construcción Edificio Ethereum">
+                </div>
+                <button onclick="initAssembly()" class="w-full btn-gold py-4 rounded-xl uppercase text-xs tracking-widest">
+                    Inicializar Sesión en Blockchain
                 </button>
             </div>
         </div>
 
         <div id="step3" class="max-w-xl w-full lazos-card p-10 step-hidden">
-            <div class="flex justify-between items-start mb-10">
-                <div>
-                    <h2 id="activeSessionName" class="text-xl font-bold"></h2>
-                    <p class="text-gray-500 text-xs">Añadir puntos de votación a la agenda.</p>
-                </div>
-                <div class="animate-pulse w-3 h-3 bg-red-500 rounded-full"></div>
+            <div class="mb-8">
+                <h2 id="activeSessionName" class="text-2xl font-bold italic"></h2>
+                <p class="text-gold text-[10px] font-bold tracking-widest uppercase mt-1">Configuración de Agenda</p>
             </div>
             <div class="space-y-6">
-                <div class="flex gap-2">
-                    <input id="propInput" placeholder="Descripción de la propuesta...">
-                    <button onclick="addProp()" class="bg-white text-black px-6 rounded-xl font-bold text-xl">+</button>
+                <div class="flex gap-3">
+                    <input id="propInput" class="custom-input" placeholder="Describa la propuesta a votar...">
+                    <button onclick="addProp()" class="bg-white text-black px-6 rounded-xl font-black text-2xl hover:bg-gold transition-colors">+</button>
                 </div>
-                <div id="propList" class="space-y-2">
+                <div id="propList" class="space-y-3 pt-4 border-t border-white/5">
                     </div>
-                <button id="startVotingBtn" onclick="goToVoting()" class="hidden w-full border border-[#10b981] text-[#10b981] py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[#10b981]/10">
-                    Publicar para Votación
+                <button id="startVotingBtn" onclick="goToVoting()" class="hidden w-full border border-gold/40 text-gold py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-gold hover:text-black transition-all">
+                    Publicar para Deliberación →
                 </button>
             </div>
         </div>
 
         <div id="step4" class="max-w-5xl w-full step-hidden">
-            <div class="flex justify-between items-end mb-12">
-                <div>
-                    <span id="roleIndicator" class="text-[#10b981] text-[10px] font-bold tracking-[.3em] uppercase mb-2 block"></span>
-                    <h2 class="text-4xl font-extrabold italic">Deliberación en Curso</h2>
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-4xl font-extrabold italic">Votación Activa</h2>
+                <span id="roleIndicator" class="bg-gold/10 text-gold text-[10px] px-4 py-2 rounded-full font-bold tracking-[0.2em] border border-gold/20"></span>
+            </div>
+            <div id="votingGrid" class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                 </div>
-                <button onclick="showResults()" class="text-gray-500 hover:text-white text-[10px] font-bold uppercase tracking-widest border-b border-gray-800 pb-1">
-                    Cerrar y Ver Resultados
+            <div class="mt-16 text-center">
+                <button onclick="showResults()" class="text-gray-500 hover:text-white text-xs font-bold uppercase tracking-widest border-b border-white/10 pb-2 transition-all">
+                    Finalizar y Consolidar Resultados
                 </button>
             </div>
-            <div id="votingGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                </div>
         </div>
 
-        <div id="step5" class="max-w-xl w-full lazos-card p-12 text-center step-hidden border-[#10b981]/30 shadow-2xl shadow-[#10b981]/5">
-            <div class="mb-8 inline-block p-4 rounded-full bg-[#10b981]/10">
-                <svg class="w-12 h-12 text-[#10b981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div id="step5" class="max-w-4xl w-full step-hidden">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-extrabold italic mb-2 text-gold">Resultados de la Sesión</h2>
+                <p class="text-gray-400">Verificación individual de cada decisión en la red Base Sepolia.</p>
             </div>
-            <h2 class="text-3xl font-bold mb-4">Decisión Ejecutada</h2>
-            <p class="text-gray-400 text-sm mb-10">El consenso ha sido registrado de forma inmutable en el Diamond Proxy de LazosTech.</p>
-            
-            <div class="bg-black/40 rounded-2xl p-6 text-left border border-white/5 mb-8 space-y-3">
-                <div class="flex justify-between text-[10px] uppercase tracking-tighter text-gray-500"><span>Consenso Logrado</span><span class="text-white">100%</span></div>
-                <div class="flex justify-between text-[10px] uppercase tracking-tighter text-gray-500"><span>Validación L2</span><span class="text-[#10b981]">Base Sepolia</span></div>
+            <div id="resultsContainer" class="space-y-4">
+                </div>
+            <div class="mt-12 text-center">
+                <button onclick="location.reload()" class="bg-white/5 border border-white/10 px-10 py-4 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10">
+                    Nueva Sesión
+                </button>
             </div>
-
-            <a href="https://sepolia.basescan.org/address/0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8" target="_blank" class="block w-full btn-primary py-4 rounded-xl text-xs uppercase tracking-[0.2em]">
-                Verificar en BaseScan
-            </a>
         </div>
 
     </main>
 
-    <footer class="p-8 text-center text-gray-600 text-[10px] uppercase tracking-[0.5em]">
-        LazosTech © 2026 | Inmutable Governance
-    </footer>
-
     <script>
-        let props = ["Viabilidad Técnica Edificio Ethereum", "Aprobación Presupuesto Fase 1", "Acuerdo de Gobernanza Zonamerica"];
+        let props = []; // Guardará objetos { text, vote }
         let currentRole = "";
 
         function transition(from, to) {
@@ -167,15 +143,17 @@
                 document.getElementById(from).style.display = 'none';
                 document.getElementById(to).style.display = 'block';
                 setTimeout(() => document.getElementById(to).classList.add('step-active'), 50);
-            }, 500);
+            }, 400);
         }
 
         function connect(role) {
             currentRole = role;
-            document.getElementById('walletDisplay').innerText = "Wallet: 0x71C...4E21";
+            document.getElementById('walletStatus').innerText = "WALLET: 0x71C...4E21 (CONNECTED)";
             if (role === 'admin') transition('step1', 'step2');
             else {
-                document.getElementById('roleIndicator').innerText = "VISTA DE MIEMBRO DE JUNTA";
+                // Participante ve propuestas default si no hay sesión
+                if(props.length === 0) props = [{text: "Viabilidad Técnica Edificio Ethereum", vote: null}];
+                document.getElementById('roleIndicator').innerText = "VISTA DE PARTICIPANTE";
                 renderVotingGrid();
                 transition('step1', 'step4');
             }
@@ -191,8 +169,11 @@
         function addProp() {
             const val = document.getElementById('propInput').value;
             if(!val) return;
-            props.push(val);
-            document.getElementById('propList').innerHTML += `<div class="bg-white/5 p-3 rounded-lg text-sm border border-white/5 font-light">▪ ${val}</div>`;
+            props.push({text: val, vote: null});
+            document.getElementById('propList').innerHTML += `
+                <div class="bg-white/5 p-4 rounded-xl border border-white/5 text-sm font-light flex items-center gap-3">
+                    <span class="text-gold">●</span> ${val}
+                </div>`;
             document.getElementById('propInput').value = "";
             document.getElementById('startVotingBtn').classList.remove('hidden');
         }
@@ -200,15 +181,15 @@
         function renderVotingGrid() {
             const grid = document.getElementById('votingGrid');
             grid.innerHTML = props.map((p, i) => `
-                <div class="lazos-card p-8 border-white/5 hover:border-[#10b981]/40 transition-all group">
-                    <span class="text-[9px] font-bold text-[#10b981] tracking-widest block mb-4 uppercase">Propuesta #${i+1}</span>
-                    <h4 class="font-bold text-lg mb-8 h-12 leading-tight">${p}</h4>
-                    <div id="vote-actions-${i}" class="space-y-3">
-                        <button onclick="vote(${i})" class="w-full btn-primary py-3 rounded-xl text-[10px] uppercase tracking-widest">A favor</button>
-                        <button class="w-full bg-white/5 py-3 rounded-xl text-[10px] uppercase tracking-widest text-gray-500 font-bold hover:bg-red-500/10 transition-all">En contra</button>
+                <div class="lazos-card p-8 border-white/5 hover:border-gold/30 transition-all">
+                    <span class="text-[9px] font-bold text-gray-500 tracking-widest uppercase mb-4 block">Propuesta #${i+1}</span>
+                    <h4 class="font-bold text-xl mb-10 min-h-[60px] leading-tight">${p.text}</h4>
+                    <div id="vote-actions-${i}" class="flex gap-4">
+                        <button onclick="registerVote(${i}, 'A favor')" class="flex-grow btn-gold py-4 rounded-xl text-[10px] uppercase tracking-widest">A FAVOR</button>
+                        <button onclick="registerVote(${i}, 'Rechazado')" class="flex-grow bg-red-500/10 border border-red-500/20 py-4 rounded-xl text-[10px] uppercase tracking-widest text-red-400 font-bold hover:bg-red-500/20">RECHAZAR</button>
                     </div>
-                    <div id="vote-done-${i}" class="hidden py-4 text-[#10b981] font-black text-center border border-[#10b981]/20 rounded-xl bg-[#10b981]/5 text-xs uppercase tracking-widest">
-                        Voto Registrado
+                    <div id="vote-done-${i}" class="hidden py-4 text-gold font-bold text-center border border-gold/20 rounded-xl bg-gold/5 text-xs uppercase tracking-widest">
+                        Voto Registrado Criptográficamente
                     </div>
                 </div>
             `).join('');
@@ -220,12 +201,31 @@
             transition('step3', 'step4');
         }
 
-        function vote(i) {
-            document.getElementById(`vote-actions-${i}`).classList.add('hidden');
-            document.getElementById(`vote-done-${i}`).classList.remove('hidden');
+        function registerVote(index, type) {
+            props[index].vote = type;
+            document.getElementById(`vote-actions-${index}`).classList.add('hidden');
+            document.getElementById(`vote-done-${index}`).classList.remove('hidden');
+            document.getElementById(`vote-done-${index}`).innerText = `VOTADO: ${type}`;
         }
 
-        function showResults() { transition('step4', 'step5'); }
+        function showResults() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = props.map((p, i) => `
+                <div class="lazos-card p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="text-left">
+                        <h4 class="font-bold text-white">${p.text}</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-[10px] uppercase font-bold ${p.vote === 'A favor' ? 'text-emerald-400' : 'text-red-400'}">${p.vote || 'Pendiente'}</span>
+                            <span class="text-[10px] text-gray-600 font-mono">ID: 0x${Math.random().toString(16).substr(2, 8)}...</span>
+                        </div>
+                    </div>
+                    <a href="https://sepolia.basescan.org/address/0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8" target="_blank" class="text-[10px] text-gold border border-gold/30 px-6 py-2 rounded-full font-bold uppercase tracking-widest hover:bg-gold hover:text-black transition-all">
+                        Proof on BaseScan ↗
+                    </a>
+                </div>
+            `).join('');
+            transition('step4', 'step5');
+        }
     </script>
 </body>
 </html>

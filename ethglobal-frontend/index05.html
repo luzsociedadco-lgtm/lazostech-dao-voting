@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazosTech DAO | Board Governance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --lazos-gold: #f2a93b; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #000000; 
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animación de Resonancia / Vibración en el fondo */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(242, 169, 59, 0.08) 0%, transparent 40%);
+            animation: resonance 8s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes resonance {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; filter: blur(20px); }
+        }
+
+        .lazos-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+
+        .btn-gold {
+            background-color: var(--lazos-gold);
+            color: #000;
+            font-weight: 800;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(242, 169, 59, 0.3);
+        }
+
+        .btn-outline-gold {
+            border: 1px solid var(--lazos-gold);
+            color: var(--lazos-gold);
+            background: transparent;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-gold:hover {
+            background: rgba(242, 169, 59, 0.1);
+            color: #fff;
+        }
+
+        .step-hidden { display: none; opacity: 0; }
+        .step-active { display: block; opacity: 1; transition: opacity 0.5s ease; }
+        
+        .custom-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            width: 100%;
+            outline: none;
+        }
+        .custom-input:focus { border-color: var(--lazos-gold); }
+
+        .voted-approved {
+            border: 1px solid rgba(242, 169, 59, 0.3);
+            background: rgba(242, 169, 59, 0.1);
+            color: var(--lazos-gold);
+        }
+
+        .voted-rejected {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <nav class="p-8 w-full max-w-7xl mx-auto flex justify-between items-center relative z-10">
+        <div class="flex items-center gap-4">
+            <img src="https://static.wixstatic.com/media/9d63c4_6c021161372b43a99201994640476442~mv2.png" alt="LazosTech" class="h-10">
+            <div class="flex flex-col">
+                <span class="text-xl font-extrabold tracking-tighter leading-none">LAZOSTECH</span>
+                <span class="text-[9px] text-[#f2a93b] tracking-[0.3em] font-bold uppercase">Blockchain Solutions</span>
+            </div>
+        </div>
+        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest">
+            Network: Base Sepolia
+        </div>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-6 relative z-10">
+        
+        <div id="step1" class="max-w-3xl w-full text-center space-y-10 step-active">
+            <div class="space-y-4">
+                <h2 class="text-6xl font-extrabold tracking-tight italic text-[#f2a93b]">LazosTech DAO</h2>
+                <p class="text-gray-400 text-xl leading-relaxed max-w-2xl mx-auto font-light">
+                    Decentralized platform for strategic decision-making by the <strong>Zonamerica Cali Board of Directors</strong>. 
+                </p>
+            </div>
+            <div class="flex flex-col gap-4 max-w-sm mx-auto pt-6">
+                <button onclick="connect('admin')" class="btn-gold py-5 rounded-2xl uppercase tracking-widest text-xs">Connect Moderator Wallet</button>
+                <button onclick="connect('voter')" class="bg-white/5 border border-white/10 py-5 rounded-2xl uppercase tracking-widest text-xs font-bold hover:bg-white/10 transition-all text-gray-300">Connect Participant Wallet</button>
+            </div>
+        </div>
+
+        <div id="step2" class="max-w-xl w-full lazos-card p-12 step-hidden text-center">
+            <h2 class="text-2xl font-bold mb-8 italic text-[#f2a93b]">Initialize New Assembly</h2>
+            <div class="space-y-6">
+                <input id="sessionTitle" class="custom-input" placeholder="Session Name (e.g., Ethereum Building Phase 1)">
+                <button onclick="init

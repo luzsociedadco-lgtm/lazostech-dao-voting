@@ -169,6 +169,63 @@
     </footer>
 
     <script>
+let walletAddress = null;
+let walletRole = null;
+
+async function connectWallet() {
+    if (typeof window.ethereum === 'undefined') {
+        alert("Please install MetaMask 🦊");
+        return null;
+    }
+
+    try {
+        const accounts = await window.ethereum.request({
+            method: 'eth_requestAccounts'
+        });
+
+        walletAddress = accounts[0];
+
+        // Cambiar a Base Sepolia automáticamente
+        await switchToBaseSepolia();
+
+        return walletAddress;
+
+    } catch (err) {
+        console.error(err);
+        alert("Wallet connection rejected");
+        return null;
+    }
+}
+
+async function switchToBaseSepolia() {
+    const baseSepolia = {
+        chainId: "0x14A34", // 84532
+        chainName: "Base Sepolia",
+        nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18
+        },
+        rpcUrls: ["https://sepolia.base.org"],
+        blockExplorerUrls: ["https://sepolia.basescan.org"]
+    };
+
+    try {
+        await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: baseSepolia.chainId }]
+        });
+    } catch (switchError) {
+        // Si la red no existe → agregarla
+        if (switchError.code === 4902) {
+            await window.ethereum.request({
+                method: "wallet_addEthereumChain",
+                params: [baseSepolia]
+            });
+        }
+    }
+}
+
         let props = [];
 
         function transition(from, to) {
@@ -179,22 +236,33 @@
                 setTimeout(() => document.getElementById(to).classList.add('step-active'), 50);
             }, 400);
         }
+async function connect(role) {
 
-        function connect(role) {
-            if (role === 'admin') transition('step1', 'step2');
-            else {
-                if(props.length === 0) {
-                    props = [
-                        {text: "Is construction viable in Zonamerica?", vote: null},
-                        {text: "Is required land available?", vote: null},
-                        {text: "Alignment with Zonamerica goals?", vote: null},
-                        {text: "Final Approval for Construction", vote: null}
-                    ];
-                }
-                renderVotingGrid();
-                transition('step1', 'step4');
-            }
+    const address = await connectWallet();
+    if (!address) return;
+
+    walletRole = role;
+
+    // Mostrar wallet conectada (queda cool para demo)
+    const short = address.slice(0,6) + "..." + address.slice(-4);
+    document.querySelector("nav div.text-[10px]").innerText =
+        "Connected: " + short + " • Base Sepolia";
+
+    if (role === 'admin') {
+        transition('step1', 'step2');
+    } else {
+        if(props.length === 0) {
+            props = [
+                {text: "Is construction viable in Zonamerica?", vote: null},
+                {text: "Is required land available?", vote: null},
+                {text: "Alignment with Zonamerica goals?", vote: null},
+                {text: "Final Approval for Construction", vote: null}
+            ];
         }
+        renderVotingGrid();
+        transition('step1', 'step4');
+    }
+}
 
         function initAssembly() {
             const title = document.getElementById('sessionTitle').value;

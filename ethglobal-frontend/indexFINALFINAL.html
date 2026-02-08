@@ -8,87 +8,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --lazos-gold: #f2a93b; }
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #000000; 
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle at center, rgba(242, 169, 59, 0.08) 0%, transparent 40%);
-            animation: resonance 8s infinite ease-in-out;
-            z-index: -1;
-        }
-
-        @keyframes resonance {
-            0%, 100% { transform: scale(1) opacity(0.5); }
-            50% { transform: scale(1.1) opacity(0.8); filter: blur(20px); }
-        }
-
-        .lazos-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-        }
-
-        .btn-gold {
-            background-color: var(--lazos-gold);
-            color: #000;
-            font-weight: 800;
-            transition: all 0.3s ease;
-        }
-        .btn-gold:hover {
-            color: #fff !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(242, 169, 59, 0.3);
-        }
-
-        .btn-outline-gold {
-            border: 1px solid var(--lazos-gold);
-            color: var(--lazos-gold);
-            background: transparent;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-        .btn-outline-gold:hover {
-            background: rgba(242, 169, 59, 0.1);
-            color: #fff;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #000000; color: #ffffff; min-height: 100vh; overflow-x: hidden; position: relative; }
+        body::before { content: ""; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(242, 169, 59, 0.08) 0%, transparent 40%); animation: resonance 8s infinite ease-in-out; z-index: -1; }
+        @keyframes resonance { 0%, 100% { transform: scale(1) opacity(0.5); } 50% { transform: scale(1.1) opacity(0.8); filter: blur(20px); } }
+        .lazos-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .btn-gold { background-color: var(--lazos-gold); color: #000; font-weight: 800; transition: all 0.3s ease; }
+        .btn-gold:hover { color: #fff !important; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(242, 169, 59, 0.3); }
+        .btn-outline-gold { border: 1px solid var(--lazos-gold); color: var(--lazos-gold); background: transparent; font-weight: 700; transition: all 0.3s ease; }
         .step-hidden { display: none; opacity: 0; }
         .step-active { display: block; opacity: 1; transition: opacity 0.5s ease; }
-        
-        .custom-input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            padding: 1.25rem;
-            border-radius: 12px;
-            width: 100%;
-            outline: none;
-        }
-        .custom-input:focus { border-color: var(--lazos-gold); }
-
-        .voted-approved {
-            border: 1px solid rgba(242, 169, 59, 0.3);
-            background: rgba(242, 169, 59, 0.1);
-            color: var(--lazos-gold);
-        }
-
-        .voted-rejected {
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-        }
+        .custom-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 1.25rem; border-radius: 12px; width: 100%; outline: none; }
+        .voted-approved { border: 1px solid rgba(242, 169, 59, 0.3); background: rgba(242, 169, 59, 0.1); color: var(--lazos-gold); }
+        .voted-rejected { border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.1); color: #ef4444; }
     </style>
 </head>
 <body class="flex flex-col">
@@ -101,19 +32,14 @@
                 <span class="text-[9px] text-[#f2a93b] tracking-[0.3em] font-bold uppercase">Blockchain Solutions</span>
             </div>
         </div>
-        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest">
-            Network: Base Sepolia
-        </div>
+        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest">Network: Base Sepolia</div>
     </nav>
 
     <main class="flex-grow flex items-center justify-center p-6 relative z-10">
-        
         <div id="step1" class="max-w-3xl w-full text-center space-y-10 step-active">
             <div class="space-y-4">
                 <h2 class="text-6xl font-extrabold tracking-tight italic text-[#f2a93b]">LazosTech DAO</h2>
-                <p class="text-gray-400 text-xl leading-relaxed max-w-2xl mx-auto font-light">
-                    Decentralized platform for strategic decision-making by the <strong>Zonamerica Cali Board of Directors</strong>. 
-                </p>
+                <p class="text-gray-400 text-xl leading-relaxed max-w-2xl mx-auto font-light">Decentralized platform for strategic decision-making by the <strong>Zonamerica Cali Board of Directors</strong>.</p>
             </div>
             <div class="flex flex-col gap-4 max-w-sm mx-auto pt-6">
                 <button onclick="connect('admin')" class="btn-gold py-5 rounded-2xl uppercase tracking-widest text-xs">Connect Moderator Wallet</button>
@@ -143,13 +69,8 @@
 
         <div id="step4" class="max-w-5xl w-full step-hidden">
             <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h2 class="text-4xl font-extrabold italic">Voting Room</h2>
-                    <p class="text-[#f2a93b] text-[10px] font-bold tracking-widest uppercase mt-2">Board Members Authorized</p>
-                </div>
-                <button onclick="showResults()" class="btn-outline-gold px-8 py-3 rounded-full text-[10px] uppercase tracking-widest">
-                    Finalize & Consolidate Results
-                </button>
+                <div><h2 class="text-4xl font-extrabold italic">Voting Room</h2><p class="text-[#f2a93b] text-[10px] font-bold tracking-widest uppercase mt-2">Board Members Authorized</p></div>
+                <button onclick="showResults()" class="btn-outline-gold px-8 py-3 rounded-full text-[10px] uppercase tracking-widest">Finalize & Consolidate Results</button>
             </div>
             <div id="votingGrid" class="grid md:grid-cols-2 gap-6"></div>
         </div>
@@ -160,36 +81,34 @@
                 <button onclick="location.reload()" class="text-gray-500 hover:text-white uppercase text-[10px] tracking-widest font-bold underline decoration-1 underline-offset-8">New Board Session</button>
             </div>
         </div>
-
     </main>
 
-    <footer class="p-8 text-center text-gray-700 text-[10px] uppercase tracking-[0.5em] relative z-10">
-        LazosTech DAO © 2026 | Inmutable Governance System
-    </footer>
+    <footer class="p-8 text-center text-gray-700 text-[10px] uppercase tracking-[0.5em] relative z-10">LazosTech DAO © 2026 | Inmutable Governance System</footer>
 
     <script>
         let props = [];
 
         function transition(from, to) {
-            document.getElementById(from).classList.replace('step-active', 'step-hidden');
+            const fromEl = document.getElementById(from);
+            const toEl = document.getElementById(to);
+            fromEl.classList.replace('step-active', 'step-hidden');
             setTimeout(() => {
-                document.getElementById(from).style.display = 'none';
-                document.getElementById(to).style.display = 'block';
-                setTimeout(() => document.getElementById(to).classList.add('step-active'), 50);
+                fromEl.style.display = 'none';
+                toEl.style.display = 'block';
+                setTimeout(() => toEl.classList.add('step-active'), 50);
             }, 400);
         }
 
         function connect(role) {
-            if (role === 'admin') transition('step1', 'step2');
-            else {
-                if(props.length === 0) {
-                    props = [
-                        {text: "Is construction viable in Zonamerica?", vote: null},
-                        {text: "Is required land available?", vote: null},
-                        {text: "Alignment with Zonamerica goals?", vote: null},
-                        {text: "Final Approval for Construction", vote: null}
-                    ];
-                }
+            if (role === 'admin') {
+                transition('step1', 'step2');
+            } else {
+                props = [
+                    {text: "Is construction viable in Zonamerica?", vote: null},
+                    {text: "Is required land available?", vote: null},
+                    {text: "Alignment with Zonamerica goals?", vote: null},
+                    {text: "Final Approval for Construction", vote: null}
+                ];
                 renderVotingGrid();
                 transition('step1', 'step4');
             }
@@ -232,6 +151,43 @@
 
         function vote(i, type) {
             props[i].vote = type;
-            const actionDiv = document.getElementById(`vote-actions-${i}`);
+            document.getElementById(`vote-actions-${i}`).classList.add('hidden');
             const doneDiv = document.getElementById(`vote-done-${i}`);
-            actionDiv.classList.add('hidden');
+            doneDiv.classList.remove('hidden');
+            doneDiv.innerText = `MY DECISION: ${type}`;
+            doneDiv.className = type === 'Approved' ? "py-4 font-bold text-center rounded-xl text-[10px] uppercase tracking-widest voted-approved" : "py-4 font-bold text-center rounded-xl text-[10px] uppercase tracking-widest voted-rejected";
+        }
+
+        function showResults() {
+            const content = document.getElementById('resultsContent');
+            let html = `
+                <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
+                    <div class="text-left">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Active Session</p>
+                        <h2 class="text-3xl font-bold italic">Ethereum Building @ Zonamerica Cali</h2>
+                        <p class="text-[10px] text-gray-500 mt-2 font-mono uppercase tracking-tighter">ID: #SESSION-2026-02 • Created by Board Chair</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-4xl font-extrabold text-[#f2a93b]">4 / 4</p>
+                        <p class="text-[9px] text-gray-500 uppercase font-bold tracking-widest">Board Members Voted</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-5">`;
+
+            html += props.map((p, i) => {
+                const isMyVoteApproved = p.vote === 'Approved';
+                const yesCount = isMyVoteApproved ? 4 : 3;
+                const noCount = isMyVoteApproved ? 0 : 1;
+                const yesPercent = (yesCount / 4) * 100;
+                const noPercent = (noCount / 4) * 100;
+                const label = isMyVoteApproved ? 'Passed' : 'Rejected';
+                const labelClass = isMyVoteApproved ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20';
+
+                return `
+                <div class="lazos-card p-5 border-white/5 relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[10px] font-mono text-gray-600 uppercase">RES-0${i+1}</span>
+                        <span class="text-[9px] font-bold px-2 py-0.5 rounded ${labelClass} border uppercase tracking-widest">${label}</span>
+                    </div>
+                    <h4 class="font-bold text-white text-lg mb-6 leading-tight h-12">${p.text}</h4>
+                    <div class="w-full bg-white/5 h-2 rounded-full

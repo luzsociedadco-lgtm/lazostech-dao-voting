@@ -6,9 +6,5 @@ solc_version = "0.8.30"
 optimizer = true
 optimizer_runs = 200
 
-[profile.default.lints]
-unaliased-plain-import = "allow"
-unwrapped-modifier-logic = "allow"
-named-struct-fields = "allow"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

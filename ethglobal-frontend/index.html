@@ -3,161 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LazosTech DAO | ETHGlobal Demo</title>
+    <title>LazosTech DAO | Board Governance</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
-        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        .gradient-text { background: linear-gradient(to right, #34d399, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        :root { --lazos-gold: #f2a93b; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #000000; 
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animación de Resonancia / Vibración en el fondo */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(242, 169, 59, 0.08) 0%, transparent 40%);
+            animation: resonance 8s infinite ease-in-out;
+            z-index: -1;
+        }
+
+        @keyframes resonance {
+            0%, 100% { transform: scale(1) opacity(0.5); }
+            50% { transform: scale(1.1) opacity(0.8); filter: blur(20px); }
+        }
+
+        .lazos-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+
+        .btn-gold {
+            background-color: var(--lazos-gold);
+            color: #000;
+            font-weight: 800;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(242, 169, 59, 0.3);
+        }
+
+        .btn-outline-gold {
+            border: 1px solid var(--lazos-gold);
+            color: var(--lazos-gold);
+            background: transparent;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-gold:hover {
+            background: rgba(242, 169, 59, 0.1);
+            color: #fff;
+        }
+
+        .step-hidden { display: none; opacity: 0; }
+        .step-active { display: block; opacity: 1; transition: opacity 0.5s ease; }
+        
+        .custom-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            width: 100%;
+            outline: none;
+        }
+        .custom-input:focus { border-color: var(--lazos-gold); }
+
+        .voted-approved {
+            border: 1px solid rgba(242, 169, 59, 0.3);
+            background: rgba(242, 169, 59, 0.1);
+            color: var(--lazos-gold);
+        }
+
+        .voted-rejected {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="flex flex-col">
 
-    <nav class="w-full p-6 flex justify-between items-center border-b border-gray-800">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg"></div>
-            <h1 class="text-xl font-bold tracking-tight">LazosTech <span class="font-light text-gray-400">DAO</span></h1>
-        </div>
+    <nav class="p-8 w-full max-w-7xl mx-auto flex justify-between items-center relative z-10">
         <div class="flex items-center gap-4">
-            <span class="text-xs font-mono text-green-400 bg-green-900/30 px-3 py-1 rounded-full border border-green-800">● Base Sepolia</span>
-            <button id="connectBtn" onclick="connectWallet()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition-all shadow-lg shadow-blue-500/20">
-                Connect Wallet
-            </button>
+            <img src="https://static.wixstatic.com/media/9d63c4_6c021161372b43a99201994640476442~mv2.png" alt="LazosTech" class="h-10">
+            <div class="flex flex-col">
+                <span class="text-xl font-extrabold tracking-tighter leading-none">LAZOSTECH</span>
+                <span class="text-[9px] text-[#f2a93b] tracking-[0.3em] font-bold uppercase">Blockchain Solutions</span>
+            </div>
+        </div>
+        <div class="text-[10px] font-mono text-gray-500 border border-white/10 px-4 py-2 rounded-full uppercase tracking-widest">
+            Network: Base Sepolia
         </div>
     </nav>
 
-    <main class="flex-grow container mx-auto px-6 py-12 max-w-5xl">
+    <main class="flex-grow flex items-center justify-center p-6 relative z-10">
         
-        <header class="mb-12 text-center">
-            <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-blue-400 uppercase bg-blue-900/20 rounded-full border border-blue-800">
-                ETHGlobal 2026 Governance Pilot
+        <div id="step1" class="max-w-3xl w-full text-center space-y-10 step-active">
+            <div class="space-y-4">
+                <h2 class="text-6xl font-extrabold tracking-tight italic text-[#f2a93b]">LazosTech DAO</h2>
+                <p class="text-gray-400 text-xl leading-relaxed max-w-2xl mx-auto font-light">
+                    Decentralized platform for strategic decision-making by the <strong>Zonamerica Cali Board of Directors</strong>. 
+                </p>
             </div>
-            <h2 class="text-5xl font-bold mb-4">Institutional <span class="gradient-text">Governance</span></h2>
-            <p class="text-gray-400 max-w-2xl mx-auto text-lg">
-                Decentralized decision-making infrastructure for university sustainability hubs.
-                Powered by EIP-2535 Diamond Standard.
-            </p>
-        </header>
+            <div class="flex flex-col gap-4 max-w-sm mx-auto pt-6">
+                <button onclick="connect('admin')" class="btn-gold py-5 rounded-2xl uppercase tracking-widest text-xs">Connect Moderator Wallet</button>
+                <button onclick="connect('voter')" class="bg-white/5 border border-white/10 py-5 rounded-2xl uppercase tracking-widest text-xs font-bold hover:bg-white/10 transition-all text-gray-300">Connect Participant Wallet</button>
+            </div>
+        </div>
 
-        <section class="glass-panel rounded-2xl p-8 mb-10 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
-            
-            <div class="flex justify-between items-start mb-6 relative z-10">
+        <div id="step2" class="max-w-xl w-full lazos-card p-12 step-hidden text-center">
+            <h2 class="text-2xl font-bold mb-8 italic text-[#f2a93b]">Initialize New Assembly</h2>
+            <div class="space-y-6">
+                <input id="sessionTitle" class="custom-input" placeholder="Session Name (e.g., Ethereum Building Phase 1)">
+                <button onclick="initAssembly()" class="w-full btn-gold py-4 rounded-xl uppercase text-xs tracking-widest">Open Blockchain Session</button>
+            </div>
+        </div>
+
+        <div id="step3" class="max-w-xl w-full lazos-card p-10 step-hidden">
+            <h2 id="activeSessionName" class="text-xl font-bold italic mb-8 border-b border-white/5 pb-4"></h2>
+            <div class="space-y-6">
+                <div class="flex gap-2">
+                    <input id="propInput" class="custom-input" placeholder="Add voting proposal...">
+                    <button onclick="addProp()" class="bg-white text-black px-6 rounded-xl font-black text-2xl hover:bg-[#f2a93b] transition-colors">+</button>
+                </div>
+                <div id="propList" class="space-y-3"></div>
+                <button id="startVotingBtn" onclick="goToVoting()" class="hidden w-full border border-[#f2a93b] text-[#f2a93b] py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[#f2a93b]/10">Publish for Deliberation →</button>
+            </div>
+        </div>
+
+        <div id="step4" class="max-w-5xl w-full step-hidden">
+            <div class="flex justify-between items-center mb-10">
                 <div>
-                    <h3 class="text-gray-400 text-sm uppercase tracking-widest mb-1">Active Session</h3>
-                    <h2 class="text-2xl font-bold text-white">Ethereum Building @ Zonamerica Cali</h2>
-                    <p class="text-sm text-gray-500 mt-1">ID: #SESSION-2026-02 • Created by Board Chair</p>
+                    <h2 class="text-4xl font-extrabold italic">Voting Room</h2>
+                    <p class="text-[#f2a93b] text-[10px] font-bold tracking-widest uppercase mt-2">Board Members Authorized</p>
                 </div>
-                <div class="text-right">
-                    <div class="text-2xl font-mono font-bold text-green-400">4 / 4</div>
-                    <div class="text-xs text-gray-400">Board Members Voted</div>
-                </div>
+                <button onclick="showResults()" class="btn-outline-gold px-8 py-3 rounded-full text-[10px] uppercase tracking-widest">
+                    Finalize & Consolidate Results
+                </button>
             </div>
+            <div id="votingGrid" class="grid md:grid-cols-2 gap-8"></div>
+        </div>
 
-            <div class="grid md:grid-cols-2 gap-4 relative z-10">
-                <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
-                    <div class="flex justify-between mb-3">
-                        <span class="text-xs font-mono text-gray-500">RES-01</span>
-                        <span class="text-xs font-bold text-green-400 bg-green-900/20 px-2 py-0.5 rounded">PASSED</span>
-                    </div>
-                    <h4 class="font-semibold text-lg mb-4">Is construction viable in Zonamerica?</h4>
-                    <div class="w-full bg-gray-700 h-2 rounded-full mb-2 overflow-hidden">
-                        <div class="bg-green-500 h-full" style="width: 100%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400">
-                        <span>Yes: 100%</span>
-                        <a href="https://sepolia.basescan.org/address/0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8" target="_blank" class="text-blue-400 hover:underline">View on BaseScan ↗</a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
-                    <div class="flex justify-between mb-3">
-                        <span class="text-xs font-mono text-gray-500">RES-02</span>
-                        <span class="text-xs font-bold text-green-400 bg-green-900/20 px-2 py-0.5 rounded">PASSED</span>
-                    </div>
-                    <h4 class="font-semibold text-lg mb-4">Is required land available?</h4>
-                    <div class="w-full bg-gray-700 h-2 rounded-full mb-2 overflow-hidden">
-                        <div class="bg-green-500 h-full" style="width: 100%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400">
-                        <span>Yes: 100%</span>
-                        <a href="#" class="text-blue-400 hover:underline">View on BaseScan ↗</a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
-                    <div class="flex justify-between mb-3">
-                        <span class="text-xs font-mono text-gray-500">RES-03</span>
-                        <span class="text-xs font-bold text-green-400 bg-green-900/20 px-2 py-0.5 rounded">PASSED</span>
-                    </div>
-                    <h4 class="font-semibold text-lg mb-4">Alignment with Zonamerica goals?</h4>
-                    <div class="w-full bg-gray-700 h-2 rounded-full mb-2 overflow-hidden">
-                        <div class="bg-green-500 h-full" style="width: 100%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400">
-                        <span>Yes: 100%</span>
-                        <a href="#" class="text-blue-400 hover:underline">View on BaseScan ↗</a>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors">
-                    <div class="flex justify-between mb-3">
-                        <span class="text-xs font-mono text-gray-500">RES-04</span>
-                        <span class="text-xs font-bold text-green-400 bg-green-900/20 px-2 py-0.5 rounded">PASSED</span>
-                    </div>
-                    <h4 class="font-semibold text-lg mb-4">Final Approval for Construction</h4>
-                    <div class="w-full bg-gray-700 h-2 rounded-full mb-2 overflow-hidden">
-                        <div class="bg-green-500 h-full" style="width: 100%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400">
-                        <span>Yes: 100%</span>
-                        <a href="#" class="text-blue-400 hover:underline">View on BaseScan ↗</a>
-                    </div>
-                </div>
+        <div id="step5" class="max-w-5xl w-full step-hidden">
+            <div id="resultsContent"></div>
+            <div class="mt-8 text-center">
+                <button onclick="location.reload()" class="text-gray-500 hover:text-white uppercase text-[10px] tracking-widest font-bold underline decoration-1 underline-offset-8">New Board Session</button>
             </div>
-        </section>
-
-        <div class="text-center">
-            <p class="text-gray-500 text-sm font-mono">
-                Diamond Proxy Contract: <span class="text-gray-300 select-all">0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8</span>
-            </p>
         </div>
 
     </main>
 
-    <script>
-        async function connectWallet() {
-            const btn = document.getElementById('connectBtn');
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    btn.innerHTML = "Connecting...";
-                    // Solicita conexión a Metamask
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const account = accounts[0];
-                    
-                    // Acorta la dirección para mostrarla
-                    const shortAcc = account.substring(0,6) + "..." + account.substring(38);
-                    btn.innerHTML = "🟢 " + shortAcc;
-                    btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                    btn.classList.add('bg-slate-700', 'cursor-default');
-                    
-                    console.log("Connected to:", account);
-                    
-                    // Opcional: Verificar cadena (Base Sepolia es 84532)
-                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-                    if(chainId !== '0x14a34') { // 84532 en hex
-                        alert("Please switch to Base Sepolia network!");
-                    }
+    <footer class="p-8 text-center text-gray-700 text-[10px] uppercase tracking-[0.5em] relative z-10">
+        LazosTech DAO © 2026 | Inmutable Governance System
+    </footer>
 
-                } catch (error) {
-                    console.error(error);
-                    btn.innerHTML = "Connect Wallet";
+    <script>
+        let props = [];
+
+        function transition(from, to) {
+            document.getElementById(from).classList.replace('step-active', 'step-hidden');
+            setTimeout(() => {
+                document.getElementById(from).style.display = 'none';
+                document.getElementById(to).style.display = 'block';
+                setTimeout(() => document.getElementById(to).classList.add('step-active'), 50);
+            }, 400);
+        }
+
+        function connect(role) {
+            if (role === 'admin') transition('step1', 'step2');
+            else {
+                if(props.length === 0) {
+                    props = [
+                        {text: "Is construction viable in Zonamerica?", vote: null},
+                        {text: "Is required land available?", vote: null},
+                        {text: "Alignment with Zonamerica goals?", vote: null},
+                        {text: "Final Approval for Construction", vote: null}
+                    ];
                 }
-            } else {
-                alert("Please install MetaMask to interact with the DAO!");
+                renderVotingGrid();
+                transition('step1', 'step4');
             }
+        }
+
+        function initAssembly() {
+            const title = document.getElementById('sessionTitle').value;
+            if(!title) return;
+            document.getElementById('activeSessionName').innerText = title.toUpperCase();
+            transition('step2', 'step3');
+        }
+
+        function addProp() {
+            const val = document.getElementById('propInput').value;
+            if(!val) return;
+            props.push({text: val, vote: null});
+            document.getElementById('propList').innerHTML += `<div class="bg-white/5 p-4 rounded-xl border border-white/5 text-sm italic tracking-wide">▪ ${val}</div>`;
+            document.getElementById('propInput').value = "";
+            document.getElementById('startVotingBtn').classList.remove('hidden');
+        }
+
+        function renderVotingGrid() {
+            const grid = document.getElementById('votingGrid');
+            grid.innerHTML = props.map((p, i) => `
+                <div class="lazos-card p-6 border-white/5">
+                    <h4 class="font-bold text-xl mb-6 h-12 leading-tight">${p.text}</h4>
+                    <div id="vote-actions-${i}" class="flex gap-4">
+                        <button onclick="vote(${i}, 'Approved')" class="flex-grow btn-gold py-4 rounded-xl text-[10px] uppercase">APPROVE</button>
+                        <button onclick="vote(${i}, 'Rejected')" class="flex-grow bg-red-500/10 border border-red-500/20 py-4 rounded-xl text-[10px] font-bold text-red-400 hover:bg-red-500/20 uppercase transition-all">REJECT</button>
+                    </div>
+                    <div id="vote-done-${i}" class="hidden py-4 font-bold text-center rounded-xl text-[10px] uppercase tracking-widest"></div>
+                </div>
+            `).join('');
+        }
+
+        function goToVoting() {
+            renderVotingGrid();
+            transition('step3', 'step4');
+        }
+
+        function vote(i, type) {
+            props[i].vote = type;
+            const actionDiv = document.getElementById(`vote-actions-${i}`);
+            const doneDiv = document.getElementById(`vote-done-${i}`);
+            actionDiv.classList.add('hidden');
+            doneDiv.classList.remove('hidden');
+            doneDiv.innerText = `DECISION: ${type}`;
+            if(type === 'Approved') doneDiv.className = "py-4 font-bold text-center rounded-xl text-[10px] uppercase tracking-widest voted-approved";
+            else doneDiv.className = "py-4 font-bold text-center rounded-xl text-[10px] uppercase tracking-widest voted-rejected";
+        }
+
+        function showResults() {
+            const content = document.getElementById('resultsContent');
+            
+            let html = `
+                <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
+                    <div class="text-left">
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Active Session</p>
+                        <h2 class="text-3xl font-bold italic">Ethereum Building @ Zonamerica Cali</h2>
+                        <p class="text-[10px] text-gray-500 mt-2 font-mono uppercase tracking-tighter">ID: #SESSION-2026-02 • Created by Board Chair</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-4xl font-extrabold text-[#f2a93b]">4 / 4</p>
+                        <p class="text-[9px] text-gray-500 uppercase font-bold tracking-widest">Board Members Voted</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+            `;
+
+            html += props.map((p, i) => {
+                const isApproved = p.vote === 'Approved';
+                // Si Aprueba: 4 de 4 (100% verde). Si Rechaza: 3 de 4 (75% verde, 25% rojo).
+                const label = isApproved ? 'Passed' : 'Rejected';
+                const labelClass = isApproved ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20';
+                const yesVal = isApproved ? '100%' : '75%';
+                const noVal = isApproved ? '0%' : '25%';
+
+                return `
+                <div class="lazos-card p-5 border-white/5 relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[10px] font-mono text-gray-600 uppercase">RES-0${i+1}</span>
+                        <span class="text-[9px] font-bold px-2 py-0.5 rounded ${labelClass} border uppercase tracking-widest">${label}</span>
+                    </div>
+                    <h4 class="font-bold text-white text-lg mb-6 leading-tight h-12">${p.text}</h4>
+                    
+                    <div class="w-full bg-red-500 h-1.5 rounded-full mb-3 overflow-hidden flex">
+                        <div class="bg-emerald-500 h-full transition-all duration-1000" style="width: ${yesVal}"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                        <div class="flex gap-4">
+                            <span class="text-emerald-400">Yes: ${yesVal}</span>
+                            <span class="${isApproved ? 'text-gray-600' : 'text-red-400'}">No: ${noVal}</span>
+                        </div>
+                        <a href="https://sepolia.basescan.org/address/0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8" target="_blank" class="text-[#f2a93b] hover:underline">View on BaseScan ↗</a>
+                    </div>
+                </div>`;
+            }).join('');
+
+            html += `
+                </div>
+                <div class="mt-8 p-4 border border-dashed border-white/10 rounded-xl text-center bg-white/[0.01]">
+                    <p class="text-[11px] font-mono text-gray-500">Assambley Proxy Contract: <span class="text-[#f2a93b]">0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8</span></p>
+                </div>
+            `;
+
+            content.innerHTML = html;
+            transition('step4', 'step5');
         }
     </script>
 </body>

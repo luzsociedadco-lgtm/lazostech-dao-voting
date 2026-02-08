@@ -13,14 +13,12 @@ interface IDAOFacet {
 }
 
 contract DemoRun is Script {
-
     // 👇 PEGA AQUI LA NUEVA ADDRESS DEL DEPLOY
     address constant DIAMOND = 0xd225CBF92DC4a0A9512094B215b7b4Df2870DeE8;
 
     address constant CHAIR = 0xCa9cDD6714033a4D08e4BE479c1077e5B35f3a4B;
 
     function run() external {
-
         vm.startBroadcast();
 
         IDAOFacet dao = IDAOFacet(DIAMOND);
@@ -28,17 +26,16 @@ contract DemoRun is Script {
         // 🔥 INIT STORAGE
         dao.initDao();
 
-address chair = vm.addr(vm.envUint("PRIVATE_KEY"));
+        address chair = vm.addr(vm.envUint("PRIVATE_KEY"));
 
-dao.setChairperson(chair);
+        dao.setChairperson(chair);
 
-// 🔥 EL FIX CLAVE: el chair también es board member
-dao.addBoardMember(chair);
+        // 🔥 EL FIX CLAVE: el chair también es board member
+        dao.addBoardMember(chair);
 
-dao.addBoardMember(0x1111111111111111111111111111111111111111);
-dao.addBoardMember(0x2222222222222222222222222222222222222222);
-dao.addBoardMember(0x3333333333333333333333333333333333333333);
-
+        dao.addBoardMember(0x1111111111111111111111111111111111111111);
+        dao.addBoardMember(0x2222222222222222222222222222222222222222);
+        dao.addBoardMember(0x3333333333333333333333333333333333333333);
 
         // 🏛 abrir sesión
         dao.openSession("Ethereum Building @ Zonamerica Cali");

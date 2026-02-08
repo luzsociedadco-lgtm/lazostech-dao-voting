@@ -18,18 +18,15 @@ contract DeployNudosDiamond is Script {
         uint256 pk = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(pk);
 
-        // 1. Deploy DiamondCutFacet  
+        // 1. Deploy DiamondCutFacet
 
-    DiamondCutFacet cutFacet = new DiamondCutFacet();
+        DiamondCutFacet cutFacet = new DiamondCutFacet();
         console.log("DiamondCutFacet deployed at:", address(cutFacet));
 
         // 2. Deploy Diamond
-address owner = vm.addr(pk);
+        address owner = vm.addr(pk);
 
-Diamond diamond = new Diamond(
-    owner,
-    address(cutFacet)
-);
+        Diamond diamond = new Diamond(owner, address(cutFacet));
 
         console.log("Diamond deployed at:", address(diamond));
 
@@ -37,7 +34,7 @@ Diamond diamond = new Diamond(
         DiamondLoupeFacet loupeFacet = new DiamondLoupeFacet();
         OwnershipFacet ownershipFacet = new OwnershipFacet();
         RewardFacet rewardFacet = new RewardFacet();
-	DiamondInit init = new DiamondInit();
+        DiamondInit init = new DiamondInit();
 
         console.log("LoupeFacet deployed at:", address(loupeFacet));
         console.log("OwnershipFacet deployed at:", address(ownershipFacet));
@@ -54,9 +51,7 @@ Diamond diamond = new Diamond(
         loupeSelectors[3] = loupeFacet.facetAddress.selector;
 
         cuts[0] = IDiamondCut.FacetCut({
-            facetAddress: address(loupeFacet),
-            action: IDiamondCut.FacetCutAction.Add,
-            functionSelectors: loupeSelectors
+            facetAddress: address(loupeFacet), action: IDiamondCut.FacetCutAction.Add, functionSelectors: loupeSelectors
         });
 
         // ---- OwnershipFacet ----
@@ -71,28 +66,23 @@ Diamond diamond = new Diamond(
         });
 
         // ---- RewardFacet ----
-	bytes4[] memory rewardSelectors = new bytes4[](5);
-	rewardSelectors[0] = RewardFacet.setRewardToken.selector;
-	rewardSelectors[1] = RewardFacet.setRecycleRate.selector;
-	rewardSelectors[2] = RewardFacet.grantReward.selector;
-	rewardSelectors[3] = RewardFacet.getRewardToken.selector;
-	rewardSelectors[4] = RewardFacet.getRecycleRate.selector;
+        bytes4[] memory rewardSelectors = new bytes4[](5);
+        rewardSelectors[0] = RewardFacet.setRewardToken.selector;
+        rewardSelectors[1] = RewardFacet.setRecycleRate.selector;
+        rewardSelectors[2] = RewardFacet.grantReward.selector;
+        rewardSelectors[3] = RewardFacet.getRewardToken.selector;
+        rewardSelectors[4] = RewardFacet.getRecycleRate.selector;
 
-  cuts[2] = IDiamondCut.FacetCut({
-    facetAddress: address(rewardFacet),
-    action: IDiamondCut.FacetCutAction.Add,
-    functionSelectors: rewardSelectors
+        cuts[2] = IDiamondCut.FacetCut({
+            facetAddress: address(rewardFacet),
+            action: IDiamondCut.FacetCutAction.Add,
+            functionSelectors: rewardSelectors
         });
 
         // 5. Execute diamondCut
-IDiamondCut(address(diamond)).diamondCut(
-    cuts,
-    address(init),
-    abi.encodeWithSelector(DiamondInit.init.selector)
-);
+        IDiamondCut(address(diamond)).diamondCut(cuts, address(init), abi.encodeWithSelector(DiamondInit.init.selector));
         console.log("Diamond initialized with all base facets");
 
         vm.stopBroadcast();
     }
-    
 }

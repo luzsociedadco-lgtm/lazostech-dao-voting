@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 library DaoStorage {
-
     bytes32 constant STORAGE_POSITION = keccak256("lazostech.dao.ethglobal.storage");
 
     struct Resolution {

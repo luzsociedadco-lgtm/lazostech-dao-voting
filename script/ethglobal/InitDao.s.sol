@@ -9,7 +9,6 @@ interface IDaoEthGlobal {
 }
 
 contract InitDao is Script {
-
     // 👉 Dirección del contrato que acabas de desplegar
     address constant DAO = 0x5291B202a17BAc5BF9Ed9d5Fd32da5d333Ca42c4;
 

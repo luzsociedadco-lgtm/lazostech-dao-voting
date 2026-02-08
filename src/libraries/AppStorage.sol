@@ -5,8 +5,7 @@ library AppStorage {
     // =============================================================
     // STORAGE SLOT (ÚNICO)
     // =============================================================
-    bytes32 internal constant STORAGE_SLOT =
-        keccak256("nudos.app.storage.v1");
+    bytes32 internal constant STORAGE_SLOT = keccak256("nudos.app.storage.v1");
 
     // =============================================================
     // ENUMS
@@ -142,10 +141,10 @@ library AppStorage {
         address token;
         mapping(bytes32 => uint256) recycleRates;
 
-	// ---- NUDOS Economy ----
-	mapping(address => uint256) nudosBalance;       // tokens disponibles
-	mapping(address => uint256) nudosAccumulated;   // histórico total
-	uint256 nudosPerTicket;                         // = 10
+        // ---- NUDOS Economy ----
+        mapping(address => uint256) nudosBalance; // tokens disponibles
+        mapping(address => uint256) nudosAccumulated; // histórico total
+        uint256 nudosPerTicket; // = 10
 
         // ---- Marketplace ----
         uint256 nextItemId;
@@ -167,7 +166,7 @@ library AppStorage {
         // ---- Recycling History ----
         mapping(address => CampusMaterialRecord[]) recyclingHistory;
     }
-       
+
     // =============================================================
     // ACCESSOR
     // =============================================================
@@ -175,6 +174,6 @@ library AppStorage {
         bytes32 slot = STORAGE_SLOT;
         assembly {
             s.slot := slot
-	}
+        }
     }
 }

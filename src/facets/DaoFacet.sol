@@ -8,10 +8,7 @@ contract DaoFacet {
 
     event AssemblyCreated(uint256 indexed assemblyId, uint256 indexed campusId, string title);
     event ProposalCreated(
-        uint256 indexed proposalId,
-        uint256 indexed assemblyId,
-        address indexed proposer,
-        string title
+        uint256 indexed proposalId, uint256 indexed assemblyId, address indexed proposer, string title
     );
     event Voted(uint256 indexed proposalId, address indexed voter, bool support);
     event ProposalClosed(uint256 indexed proposalId, bool passed);
@@ -21,27 +18,18 @@ contract DaoFacet {
     // Assemblies
     // -------------------------
 
-    function createAssembly(
-        uint256 campusId,
-        string calldata title,
-        string calldata metadata
-    ) external returns (uint256 assemblyId) {
+    function createAssembly(uint256 campusId, string calldata title, string calldata metadata)
+        external
+        returns (uint256 assemblyId)
+    {
         AppStorage.Layout storage s = AppStorage.layout();
 
-        require(
-            s.isUniversityStaff[msg.sender] || s.campuses[campusId].isStaff[msg.sender],
-            "DaoFacet: not authorized"
-        );
+        require(s.isUniversityStaff[msg.sender] || s.campuses[campusId].isStaff[msg.sender], "DaoFacet: not authorized");
 
         assemblyId = ++s.nextAssemblyId;
 
-        s.assemblies[assemblyId] = AppStorage.Assembly({
-            id: assemblyId,
-            campusId: campusId,
-            title: title,
-            metadata: metadata,
-            open: true
-        });
+        s.assemblies[assemblyId] =
+            AppStorage.Assembly({id: assemblyId, campusId: campusId, title: title, metadata: metadata, open: true});
 
         emit AssemblyCreated(assemblyId, campusId, title);
     }
@@ -50,19 +38,16 @@ contract DaoFacet {
     // Proposals
     // -------------------------
 
-    function createProposal(
-        uint256 assemblyId,
-        string calldata title,
-        string calldata metadata
-    ) external returns (uint256 proposalId) {
+    function createProposal(uint256 assemblyId, string calldata title, string calldata metadata)
+        external
+        returns (uint256 proposalId)
+    {
         AppStorage.Layout storage s = AppStorage.layout();
         AppStorage.Assembly storage a = s.assemblies[assemblyId];
 
         require(a.open, "DaoFacet: assembly closed");
         require(
-            s.isUniversityStaff[msg.sender] ||
-                s.campuses[a.campusId].isStaff[msg.sender],
-            "DaoFacet: not authorized"
+            s.isUniversityStaff[msg.sender] || s.campuses[a.campusId].isStaff[msg.sender], "DaoFacet: not authorized"
         );
 
         proposalId = ++s.nextProposalId;
@@ -112,9 +97,7 @@ contract DaoFacet {
 
         require(p.open, "DaoFacet: already closed");
         require(
-            msg.sender == p.proposer ||
-                s.isUniversityStaff[msg.sender] ||
-                s.campuses[a.campusId].isStaff[msg.sender],
+            msg.sender == p.proposer || s.isUniversityStaff[msg.sender] || s.campuses[a.campusId].isStaff[msg.sender],
             "DaoFacet: not authorized"
         );
 

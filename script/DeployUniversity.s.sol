@@ -27,9 +27,7 @@ contract DeployUniversity is Script {
 
         IDiamondCut.FacetCut[] memory cut = new IDiamondCut.FacetCut[](1);
         cut[0] = IDiamondCut.FacetCut({
-            facetAddress: address(facet),
-            action: IDiamondCut.FacetCutAction.Add,
-            functionSelectors: selectors
+            facetAddress: address(facet), action: IDiamondCut.FacetCutAction.Add, functionSelectors: selectors
         });
 
         DiamondCutFacet(DIAMOND).diamondCut(cut, address(0), "");

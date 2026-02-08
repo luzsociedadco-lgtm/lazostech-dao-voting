@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import {DaoStorage} from "./storage/DaoStorage.sol";
 
 contract DaoEthGlobalFacet {
-
     // EVENTS
     event ChairpersonSet(address chairperson);
     event BoardMemberAdded(address member);

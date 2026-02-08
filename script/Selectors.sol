@@ -14,7 +14,6 @@ import {OwnershipFacet} from "../src/facets/OwnershipFacet.sol";
 import {IDiamondLoupe} from "../src/interfaces/diamond/IDiamondLoupe.sol";
 
 library Selectors {
-
     function getDiamondLoupeFacetSelectors() internal pure returns (bytes4[] memory s) {
         s = new bytes4[](4);
         s[0] = IDiamondLoupe.facets.selector;
@@ -98,11 +97,11 @@ library Selectors {
 
     function getRewardFacetSelectors() internal pure returns (bytes4[] memory s) {
         s = new bytes4[](5);
-    s[0] = RewardFacet.setRewardToken.selector;
-    s[1] = RewardFacet.setRecycleRate.selector;
-    s[2] = RewardFacet.grantReward.selector;
-    s[3] = RewardFacet.getRewardToken.selector;
-    s[4] = RewardFacet.getRecycleRate.selector;
+        s[0] = RewardFacet.setRewardToken.selector;
+        s[1] = RewardFacet.setRecycleRate.selector;
+        s[2] = RewardFacet.grantReward.selector;
+        s[3] = RewardFacet.getRewardToken.selector;
+        s[4] = RewardFacet.getRecycleRate.selector;
         return s;
     }
 

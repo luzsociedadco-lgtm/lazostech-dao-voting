@@ -4,7 +4,6 @@ pragma solidity ^0.8.30;
 import {AppStorage} from "../libraries/AppStorage.sol";
 
 contract CampusFacet {
-
     /*//////////////////////////////////////////////////////////////
                                 EVENTS
     //////////////////////////////////////////////////////////////*/
@@ -32,11 +31,7 @@ contract CampusFacet {
         require(s.isUniversityStaff[msg.sender], "CampusFacet: not university staff");
     }
 
-    function createCampus(
-        uint256 campusId,
-        string calldata name,
-        string calldata metadataURI
-    )
+    function createCampus(uint256 campusId, string calldata name, string calldata metadataURI)
         external
         onlyUniversityStaff
     {
@@ -54,11 +49,7 @@ contract CampusFacet {
         emit CampusCreated(campusId, name);
     }
 
-    function updateCampus(
-        uint256 campusId,
-        string calldata newName,
-        string calldata newMetadataURI
-    )
+    function updateCampus(uint256 campusId, string calldata newName, string calldata newMetadataURI)
         external
         onlyUniversityStaff
     {
@@ -73,13 +64,7 @@ contract CampusFacet {
         emit CampusUpdated(campusId, newName);
     }
 
-    function addCampusStaff(
-        uint256 campusId,
-        address staff
-    )
-        external
-        onlyUniversityStaff
-    {
+    function addCampusStaff(uint256 campusId, address staff) external onlyUniversityStaff {
         AppStorage.Layout storage s = AppStorage.layout();
         AppStorage.Campus storage c = s.campuses[campusId];
 
@@ -90,13 +75,7 @@ contract CampusFacet {
         }
     }
 
-    function removeCampusStaff(
-        uint256 campusId,
-        address staff
-    )
-        external
-        onlyUniversityStaff
-    {
+    function removeCampusStaff(uint256 campusId, address staff) external onlyUniversityStaff {
         AppStorage.Layout storage s = AppStorage.layout();
         AppStorage.Campus storage c = s.campuses[campusId];
 
@@ -106,14 +85,7 @@ contract CampusFacet {
         }
     }
 
-    function isCampusStaff(
-        uint256 campusId,
-        address who
-    )
-        external
-        view
-        returns (bool)
-    {
+    function isCampusStaff(uint256 campusId, address who) external view returns (bool) {
         AppStorage.Layout storage s = AppStorage.layout();
         return s.campuses[campusId].isStaff[who];
     }
@@ -121,12 +93,7 @@ contract CampusFacet {
     function getCampus(uint256 campusId)
         external
         view
-        returns (
-            uint256 id,
-            string memory name,
-            string memory metadataURI,
-            address[] memory staffList
-        )
+        returns (uint256 id, string memory name, string memory metadataURI, address[] memory staffList)
     {
         AppStorage.Layout storage s = AppStorage.layout();
         AppStorage.Campus storage c = s.campuses[campusId];
@@ -134,11 +101,7 @@ contract CampusFacet {
         return (c.id, c.name, c.metadataURI, c.staffList);
     }
 
-    function listCampusIds()
-        external
-        view
-        returns (uint256[] memory)
-    {
+    function listCampusIds() external view returns (uint256[] memory) {
         AppStorage.Layout storage s = AppStorage.layout();
         return s.campusIds;
     }

@@ -28,12 +28,8 @@ contract UniversityFacet {
     /*//////////////////////////////////////////////////////////////
                            PROFILE MANAGEMENT
     //////////////////////////////////////////////////////////////*/
-    function registerProfile(
-        string calldata metadataURI,
-        uint256 universityId,
-        uint8 role
-    ) external {
-        address owner = msg.sender;  // Solo uno mismo puede registrarse
+    function registerProfile(string calldata metadataURI, uint256 universityId, uint8 role) external {
+        address owner = msg.sender; // Solo uno mismo puede registrarse
         AppStorage.Layout storage s = AppStorage.layout();
         AppStorage.Profile storage p = s.profiles[owner];
 
@@ -63,11 +59,7 @@ contract UniversityFacet {
         emit ProfileUpdated(owner);
     }
 
-    function getProfile(address owner)
-        external
-        view
-        returns (address, string memory, uint256, uint8)
-    {
+    function getProfile(address owner) external view returns (address, string memory, uint256, uint8) {
         AppStorage.Layout storage s = AppStorage.layout();
         AppStorage.Profile storage p = s.profiles[owner];
         require(p.exists, "Profile not found");

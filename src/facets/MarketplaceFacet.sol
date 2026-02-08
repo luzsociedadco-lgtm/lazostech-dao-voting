@@ -12,10 +12,7 @@ contract MarketplaceFacet {
     event TradeProposed(uint256 indexed tradeId, uint256 itemA, uint256 itemB, address proposer);
     event TradeAccepted(uint256 indexed tradeId, address accepter);
 
-    function createItem(uint8 itemType, string calldata metadataURI, uint256 price)
-        external
-        returns (uint256)
-    {
+    function createItem(uint8 itemType, string calldata metadataURI, uint256 price) external returns (uint256) {
         AppStorage.Layout storage s = AppStorage.layout();
         uint256 id = ++s.nextItemId;
 
@@ -62,13 +59,7 @@ contract MarketplaceFacet {
         require(s.items[itemA].owner == msg.sender, "Not owner of itemA");
 
         uint256 id = ++s.nextTradeId;
-        s.trades[id] = AppStorage.Trade({
-            id: id,
-            proposer: msg.sender,
-            itemA: itemA,
-            itemB: itemB,
-            accepted: false
-        });
+        s.trades[id] = AppStorage.Trade({id: id, proposer: msg.sender, itemA: itemA, itemB: itemB, accepted: false});
 
         emit TradeProposed(id, itemA, itemB, msg.sender);
         return id;

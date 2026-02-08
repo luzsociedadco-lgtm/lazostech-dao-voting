@@ -32,15 +32,11 @@ contract AddLoupeOwnership is Script {
         ownSelectors[1] = 0xf2fde38b; // transferOwnership(address)
 
         cut[0] = IDiamondCut.FacetCut({
-            facetAddress: address(loupe),
-            action: IDiamondCut.FacetCutAction.Add,
-            functionSelectors: loupeSelectors
+            facetAddress: address(loupe), action: IDiamondCut.FacetCutAction.Add, functionSelectors: loupeSelectors
         });
 
         cut[1] = IDiamondCut.FacetCut({
-            facetAddress: address(ownership),
-            action: IDiamondCut.FacetCutAction.Add,
-            functionSelectors: ownSelectors
+            facetAddress: address(ownership), action: IDiamondCut.FacetCutAction.Add, functionSelectors: ownSelectors
         });
 
         // El call al diamond (fallback redirige al CutFacet)

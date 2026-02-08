@@ -1,0 +1,79 @@
+@startuml NudosDiamondArchitecture
+
+title Nudos Diamond Architecture - LazosTech / Nudos Token Ecosystem
+
+package "Core" {
+  class NudosToken {
+    +mintReward(address,uint256)
+    +burn()
+  }
+  class NudosCore {
+    +registerModule(bytes32,address)
+    +unregisterModule(bytes32)
+    +getModule(bytes32)
+  }
+}
+
+package "Diamond" {
+  class Diamond {
+    +fallback()
+  }
+  class DiamondCutFacet {
+    +diamondCut()
+  }
+  class DiamondLoupeFacet {
+    +facets()
+  }
+  class OwnershipFacet {
+    +owner()
+    +transferOwnership()
+  }
+}
+
+package "Facets" {
+  class CampusFacet
+  class ParticipationFacet
+  class RewardFacet
+  class RecycleFacet
+  class MarketplaceFacet
+  class TicketsFacet
+  class UniversityFacet
+  class DaoFacet
+}
+
+package "Modules" {
+  class RecycleModule
+  class RewardModule
+  class ParticipationRewardModule
+  class DaoModule
+  class MarketplaceModule
+  class TicketsModule
+  class UniversityModule
+}
+
+Diamond --> DiamondCutFacet
+Diamond --> DiamondLoupeFacet
+Diamond --> OwnershipFacet
+
+Diamond --> CampusFacet
+Diamond --> RewardFacet
+Diamond --> RecycleFacet
+Diamond --> MarketplaceFacet
+Diamond --> TicketsFacet
+Diamond --> UniversityFacet
+Diamond --> DaoFacet
+Diamond --> ParticipationFacet
+
+RewardFacet --> RewardModule
+RecycleFacet --> RecycleModule
+ParticipationFacet --> ParticipationRewardModule
+MarketplaceFacet --> MarketplaceModule
+TicketsFacet --> TicketsModule
+UniversityFacet --> UniversityModule
+DaoFacet --> DaoModule
+
+RewardModule --> NudosToken
+RecycleModule --> NudosToken
+ParticipationRewardModule --> NudosToken
+
+@enduml

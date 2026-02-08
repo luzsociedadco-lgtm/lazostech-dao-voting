@@ -1,0 +1,47 @@
+flowchart TD
+    subgraph Core
+        Token[NudosToken ERC20]
+        CoreManager[NudosCore Registry]
+    end
+
+    subgraph Diamond
+        D[Diamond Proxy]
+        Cut[DiamondCutFacet]
+        Loupe[DiamondLoupeFacet]
+        Own[OwnershipFacet]
+    end
+
+    subgraph Facets
+        CampusF[CampusFacet]
+        RewardF[RewardFacet]
+        RecycleF[RecycleFacet]
+        TicketsF[TicketsFacet]
+        UnvF[UniversityFacet]
+        DaoF[DaoFacet]
+        MarketF[MarketplaceFacet]
+    end
+
+    subgraph Modules
+        RecMod[RecycleModule]
+        RewMod[RewardModule]
+        PartMod[ParticipationRewardModule]
+        DaoMod[DaoModule]
+        MarketMod[MarketplaceModule]
+        TickMod[TicketsModule]
+        UnivMod[UniversityModule]
+    end
+
+    D --> Cut
+    D --> Loupe
+    D --> Own
+    D --> CampusF
+    D --> RewardF
+    D --> RecycleF
+    D --> TicketsF
+    D --> UnvF
+    D --> DaoF
+    D --> MarketF
+
+    RewardF --> RewMod --> Token
+    RecycleF --> RecMod --> Token
+    PartMod --> Token

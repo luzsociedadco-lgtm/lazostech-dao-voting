@@ -5,10 +5,10 @@ import {Script} from "forge-std/Script.sol";
 import {console} from "forge-std/console.sol";
 
 import {Diamond} from "../src/diamond/Diamond.sol";
-import {DiamondCutFacet} from "../src/facets/DiamondCutFacet.sol";
-import {DiamondLoupeFacet} from "../src/facets/DiamondLoupeFacet.sol";
-import {OwnershipFacet} from "../src/facets/OwnershipFacet.sol";
-import {RewardFacet} from "../src/facets/RewardFacet.sol";
+import {DiamondCutFacet} from "../src/facets/core/DiamondCutFacet.sol";
+import {DiamondLoupeFacet} from "../src/facets/core/DiamondLoupeFacet.sol";
+import {OwnershipFacet} from "../src/facets/core/OwnershipFacet.sol";
+import {RewardFacet} from "../src/facets/economy/RewardFacet.sol";
 import {DiamondInit} from "../src/init/DiamondInit.sol";
 
 import {IDiamondCut} from "../src/interfaces/diamond/IDiamondCut.sol";

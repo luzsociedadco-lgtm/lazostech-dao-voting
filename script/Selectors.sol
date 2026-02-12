@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {CampusFacet} from "../src/facets/CampusFacet.sol";
-import {DaoFacet} from "../src/facets/DaoFacet.sol";
-import {MarketplaceFacet} from "../src/facets/MarketplaceFacet.sol";
-import {ParticipationFacet} from "../src/facets/ParticipationFacet.sol";
-import {RecycleFacet} from "../src/facets/RecycleFacet.sol";
-import {RewardFacet} from "../src/facets/RewardFacet.sol";
-import {TicketsFacet} from "../src/facets/TicketsFacet.sol";
-import {UniversityFacet} from "../src/facets/UniversityFacet.sol";
-import {DiamondCutFacet} from "../src/facets/DiamondCutFacet.sol";
-import {OwnershipFacet} from "../src/facets/OwnershipFacet.sol";
+import {CampusFacet} from "../src/facets/recycling/CampusFacet.sol";
+import {DaoFacet} from "../src/facets/governance/DaoFacet.sol";
+import {MarketplaceFacet} from "../src/facets/marketplace/MarketplaceFacet.sol";
+import {ParticipationFacet} from "../src/facets/economy/ParticipationFacet.sol";
+import {RecycleFacet} from "../src/facets/recycling/RecycleFacet.sol";
+import {RewardFacet} from "../src/facets/economy/RewardFacet.sol";
+import {TicketsFacet} from "../src/facets/economy/TicketsFacet.sol";
+import {UniversityFacet} from "../src/facets/recycling/UniversityFacet.sol";
+import {DiamondCutFacet} from "../src/facets/core/DiamondCutFacet.sol";
+import {OwnershipFacet} from "../src/facets/core/OwnershipFacet.sol";
 import {IDiamondLoupe} from "../src/interfaces/diamond/IDiamondLoupe.sol";
 
 library Selectors {

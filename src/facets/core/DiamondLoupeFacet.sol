@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {IDiamondLoupe} from "../interfaces/diamond/IDiamondLoupe.sol";
-import {LibDiamond} from "../libraries/LibDiamond.sol";
+import {IDiamondLoupe} from "../../interfaces/diamond/IDiamondLoupe.sol";
+import {LibDiamond} from "../../libraries/LibDiamond.sol";
 
 contract DiamondLoupeFacet is IDiamondLoupe {
     function facets() external view override returns (Facet[] memory facets_) {

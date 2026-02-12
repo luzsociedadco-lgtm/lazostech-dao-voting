@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {AppStorage} from "../libraries/AppStorage.sol";
-import {ITicketsModule} from "../interfaces/modules/ITicketsModule.sol";
+import {AppStorage} from "../../libraries/AppStorage.sol";
+import {ITicketsModule} from "../../interfaces/modules/ITicketsModule.sol";
 
 contract TicketsFacet is ITicketsModule {
     event TicketsMinted(address indexed to, uint256 amount, uint256 indexed ticketType, address operator);

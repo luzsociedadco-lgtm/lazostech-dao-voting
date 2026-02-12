@@ -3,9 +3,9 @@ pragma solidity ^0.8.30;
 
 import {Script} from "forge-std/Script.sol";
 import {console} from "forge-std/console.sol";
-import {UniversityFacet} from "../src/facets/UniversityFacet.sol";
+import {UniversityFacet} from "../src/facets/recycling/UniversityFacet.sol";
 import {IDiamondCut} from "../src/interfaces/diamond/IDiamondCut.sol";
-import {DiamondCutFacet} from "../src/facets/DiamondCutFacet.sol";
+import {DiamondCutFacet} from "../src/facets/core/DiamondCutFacet.sol";
 
 contract DeployUniversity is Script {
     address constant DIAMOND = 0xF7A32c99401EdEFf07B86B4E0525da6a90664d3e;

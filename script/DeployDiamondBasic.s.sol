@@ -3,7 +3,7 @@ pragma solidity ^0.8.30;
 
 import {Script, console} from "forge-std/Script.sol";
 import {Diamond} from "../src/diamond/Diamond.sol";
-import {DiamondCutFacet} from "../src/facets/DiamondCutFacet.sol";
+import {DiamondCutFacet} from "../src/facets/core/DiamondCutFacet.sol";
 
 contract DeployDiamondBasic is Script {
     function run() external {

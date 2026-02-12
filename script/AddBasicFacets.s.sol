@@ -3,9 +3,9 @@ pragma solidity ^0.8.30;
 
 import {Script, console} from "forge-std/Script.sol";
 import {IDiamondCut} from "../src/interfaces/diamond/IDiamondCut.sol";
-import {DiamondCutFacet} from "../src/facets/DiamondCutFacet.sol";
-import {DiamondLoupeFacet} from "../src/facets/DiamondLoupeFacet.sol";
-import {OwnershipFacet} from "../src/facets/OwnershipFacet.sol"; // ajusta si el nombre es diferente
+import {DiamondCutFacet} from "../src/facets/core/DiamondCutFacet.sol";
+import {DiamondLoupeFacet} from "../src/facets/core/DiamondLoupeFacet.sol";
+import {OwnershipFacet} from "../src/facets/core/OwnershipFacet.sol"; // ajusta si el nombre es diferente
 
 contract AddBasicFacets is Script {
     address constant DIAMOND = 0xF7A32c99401EdEFf07B86B4E0525da6a90664d3e;

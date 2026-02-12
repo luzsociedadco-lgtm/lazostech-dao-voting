@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {AppStorage} from "../libraries/AppStorage.sol";
+import {AppStorage} from "../../libraries/AppStorage.sol";
 
 contract ParticipationFacet {
     event SubmissionRegistered(bytes32 indexed proposalId, address indexed actor, string evidence);

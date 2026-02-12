@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {AppStorage} from "../libraries/AppStorage.sol";
+import {AppStorage} from "../../libraries/AppStorage.sol";
 
 contract MarketplaceFacet {
     using AppStorage for AppStorage.Layout;

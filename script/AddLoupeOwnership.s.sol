@@ -3,8 +3,8 @@ pragma solidity ^0.8.30;
 
 import {Script, console} from "forge-std/Script.sol";
 import {IDiamondCut} from "../src/interfaces/diamond/IDiamondCut.sol";
-import {DiamondLoupeFacet} from "../src/facets/DiamondLoupeFacet.sol";
-import {OwnershipFacet} from "../src/facets/OwnershipFacet.sol";
+import {DiamondLoupeFacet} from "../src/facets/core/DiamondLoupeFacet.sol";
+import {OwnershipFacet} from "../src/facets/core/OwnershipFacet.sol";
 
 contract AddLoupeOwnership is Script {
     address constant DIAMOND = 0x75A80f6662074BD3C789921C3B36AA0e01e62Eb1;

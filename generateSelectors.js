@@ -1,50 +1,93 @@
-// generateSelectors.js
 import fs from "fs";
 import path from "path";
 import solc from "solc";
 
-const FACETS_DIR = path.join(process.cwd(), "src/facets");
-const OUT_FILE = path.join(process.cwd(), "selectors_output.sol");
+const ROOT = process.cwd();
+const FACETS_DIR = path.join(ROOT, "src/facets");
+const OUT_FILE = path.join(ROOT, "selectors_output.sol");
 
-// Filtramos solo archivos .sol y saltamos directorios
-const facetFiles = fs.readdirSync(FACETS_DIR, { withFileTypes: true })
-    .filter(f => f.isFile() && f.name.endsWith(".sol"))
-    .map(f => f.name);
+function findImports(importPath) {
+    try {
+        // intenta resolver desde la raíz del repo
+        const fullPath = path.join(ROOT, importPath);
+        const content = fs.readFileSync(fullPath, "utf8");
+        return { contents: content };
+    } catch (e) {
+        try {
+            // intenta resolver desde node_modules
+            const nmPath = path.join(ROOT, "node_modules", importPath);
+            const content = fs.readFileSync(nmPath, "utf8");
+            return { contents: content };
+        } catch (err) {
+            return { error: "File not found: " + importPath };
+        }
+    }
+}
 
-let output = `// SPDX-License-Identifier: MIT\npragma solidity ^0.8.30;\n\n`;
+// 🔎 Buscar todos los .sol recursivamente
+function getAllSolFiles(dir, list = []) {
+    const files = fs.readdirSync(dir, { withFileTypes: true });
+    for (const f of files) {
+        const full = path.join(dir, f.name);
+        if (f.isDirectory()) getAllSolFiles(full, list);
+        else if (f.name.endsWith(".sol")) list.push(full);
+    }
+    return list;
+}
 
-for (const file of facetFiles) {
-    const filePath = path.join(FACETS_DIR, file);
+const facetFiles = getAllSolFiles(FACETS_DIR);
+
+let output = `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+`;
+
+for (const filePath of facetFiles) {
     const source = fs.readFileSync(filePath, "utf8");
-
-    // Detectamos el nombre del contrato
     const contractMatch = source.match(/contract\s+(\w+)/);
     if (!contractMatch) continue;
+
     const contractName = contractMatch[1];
 
-    // Compilamos para obtener ABI
     const input = {
         language: "Solidity",
-        sources: { "Temp.sol": { content: source } },
-        settings: { outputSelection: { "*": { "*": ["abi"] } } }
+        sources: {
+            "Facet.sol": { content: source }
+        },
+        settings: {
+            outputSelection: {
+                "*": { "*": ["abi"] }
+            }
+        }
     };
-    const compiled = JSON.parse(solc.compile(JSON.stringify(input)));
-    const contract = compiled.contracts["Temp.sol"][contractName];
-    if (!contract) continue;
 
-    const abi = contract.abi;
-    const functions = abi.filter(item =>
-        item.type === "function" &&
-        (item.stateMutability === "nonpayable" || item.stateMutability === "view" || item.stateMutability === "pure")
-    );
+    let compiled;
+    try {
+        compiled = JSON.parse(
+            solc.compile(JSON.stringify(input), { import: findImports })
+        );
+    } catch {
+        console.log("❌ Error compilando", contractName);
+        continue;
+    }
+
+    if (!compiled.contracts?.["Facet.sol"]?.[contractName]) {
+        console.log("⚠️ Saltando", contractName);
+        continue;
+    }
+
+    const abi = compiled.contracts["Facet.sol"][contractName].abi;
+    const functions = abi.filter(x => x.type === "function");
 
     output += `function get${contractName}Selectors() internal pure returns (bytes4[] memory selectors) {\n`;
     output += `    selectors = new bytes4[](${functions.length});\n`;
-    functions.forEach((fn, idx) => {
-        output += `    selectors[${idx}] = ${contractName}.${fn.name}.selector;\n`;
+
+    functions.forEach((fn, i) => {
+        output += `    selectors[${i}] = ${contractName}.${fn.name}.selector;\n`;
     });
+
     output += `}\n\n`;
 }
 
 fs.writeFileSync(OUT_FILE, output);
-console.log(`✅ Selectors generados en ${OUT_FILE}`);
+console.log("✅ Selectors generados correctamente");

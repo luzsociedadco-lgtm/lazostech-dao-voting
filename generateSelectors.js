@@ -8,19 +8,27 @@ const OUT_FILE = path.join(ROOT, "selectors_output.sol");
 
 function findImports(importPath) {
     try {
-        // intenta resolver desde la raíz del repo
-        const fullPath = path.join(ROOT, importPath);
-        const content = fs.readFileSync(fullPath, "utf8");
-        return { contents: content };
-    } catch (e) {
-        try {
-            // intenta resolver desde node_modules
-            const nmPath = path.join(ROOT, "node_modules", importPath);
-            const content = fs.readFileSync(nmPath, "utf8");
-            return { contents: content };
-        } catch (err) {
-            return { error: "File not found: " + importPath };
+        // 1️⃣ ruta absoluta desde el repo
+        let fullPath = path.join(ROOT, importPath);
+        if (fs.existsSync(fullPath)) {
+            return { contents: fs.readFileSync(fullPath, "utf8") };
         }
+
+        // 2️⃣ ruta desde node_modules
+        let nmPath = path.join(ROOT, "node_modules", importPath);
+        if (fs.existsSync(nmPath)) {
+            return { contents: fs.readFileSync(nmPath, "utf8") };
+        }
+
+        // 3️⃣ 🔥 NUEVO: buscar en src/ (para imports relativos ../libraries/)
+        let srcPath = path.join(ROOT, "src", importPath.replace("../", ""));
+        if (fs.existsSync(srcPath)) {
+            return { contents: fs.readFileSync(srcPath, "utf8") };
+        }
+
+        return { error: "File not found: " + importPath };
+    } catch (err) {
+        return { error: err.message };
     }
 }
 

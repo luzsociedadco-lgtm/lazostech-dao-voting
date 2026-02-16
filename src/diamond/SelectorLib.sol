@@ -1,5 +1,26 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.30;
+pragma solidity ^0.8.20;
+
+// 🔗 IMPORTAMOS TODOS LOS FACETS (necesario para .selector)
+import {DiamondCutFacet} from "src/facets/core/DiamondCutFacet.sol";
+import {DiamondLoupeFacet} from "src/facets/core/DiamondLoupeFacet.sol";
+import {OwnershipFacet} from "src/facets/core/OwnershipFacet.sol";
+
+import {ParticipationFacet} from "src/facets/economy/ParticipationFacet.sol";
+import {RewardFacet} from "src/facets/economy/RewardFacet.sol";
+import {TicketsFacet} from "src/facets/economy/TicketsFacet.sol";
+
+import {MarketplaceFacet} from "src/facets/marketplace/MarketplaceFacet.sol";
+
+import {DaoFacet} from "src/facets/governance/DaoFacet.sol";
+import {CorporateGovernanceFacet} from "src/facets/governance/corporate-governance/CorporateGovernanceFacet.sol";
+import {UniversityGovernanceFacet} from "src/facets/governance/university-governance/UniversityGovernanceFacet.sol";
+
+import {CampusFacet} from "src/facets/recycling/CampusFacet.sol";
+import {RecycleFacet} from "src/facets/recycling/RecycleFacet.sol";
+import {UniversityFacet} from "src/facets/recycling/UniversityFacet.sol";
+
+library SelectorLib {
 
 function getDiamondCutFacetSelectors() internal pure returns (bytes4[] memory selectors) {
     selectors = new bytes4[](1);
@@ -94,3 +115,37 @@ function getUniversityFacetSelectors() internal pure returns (bytes4[] memory se
     selectors[6] = UniversityFacet.updateProfile.selector;
 }
 
+function getCorporateGovernanceFacetSelectors()
+    internal
+    pure
+    returns (bytes4[] memory selectors)
+{
+    selectors = new bytes4[](7);
+
+    selectors[0] = CorporateGovernanceFacet.initDao.selector;
+    selectors[1] = CorporateGovernanceFacet.setChairperson.selector;
+    selectors[2] = CorporateGovernanceFacet.addBoardMember.selector;
+    selectors[3] = CorporateGovernanceFacet.openSession.selector;
+    selectors[4] = CorporateGovernanceFacet.createResolution.selector;
+    selectors[5] = CorporateGovernanceFacet.vote.selector;
+    selectors[6] = CorporateGovernanceFacet.closeResolution.selector;
+}
+
+function getUniversityGovernanceFacetSelectors()
+    internal
+    pure
+    returns (bytes4[] memory selectors)
+{
+    selectors = new bytes4[](8);
+
+    selectors[0] = UniversityGovernanceFacet.addMember.selector;
+    selectors[1] = UniversityGovernanceFacet.openUniversitySession.selector;
+    selectors[2] = UniversityGovernanceFacet.createUniversityResolution.selector;
+    selectors[3] = UniversityGovernanceFacet.voteUniversity.selector;
+    selectors[4] = UniversityGovernanceFacet.closeUniversityResolution.selector;
+    selectors[5] = UniversityGovernanceFacet.assignExecutor.selector;
+    selectors[6] = UniversityGovernanceFacet.markActivityCompleted.selector;
+    selectors[7] = UniversityGovernanceFacet.redeemIncentive.selector;
+}
+
+}
